@@ -1,6 +1,6 @@
 ## Description:
 
-Andriod project to show how fragment works with activity switching. Fragment to fragment. And Fragment to Activity swtiching. 
+Andriod project to show how fragment works with activity switching. Fragment to fragment. And fragment to activity swtiching. 
 
 
 ## Example done:
