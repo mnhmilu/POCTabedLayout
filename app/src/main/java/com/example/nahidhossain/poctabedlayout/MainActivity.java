@@ -1,16 +1,22 @@
 package com.example.nahidhossain.poctabedlayout;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AppCompatActivity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,7 +25,13 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  implements ActivityCompat.OnRequestPermissionsResultCallback {
+
+    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
+
+    private View mLayout;
+
+    public static final String TAG = "MainActivity";
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -31,6 +43,11 @@ public class MainActivity extends AppCompatActivity {
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
+
+    private static final int REQUEST_CONTACTS = 1;
+
+    private static String[] PERMISSIONS_CONTACT = {Manifest.permission.READ_CONTACTS };
+
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -40,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+       // mLayout = findViewById(R.id.main_content);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -58,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
 
 
     @Override
@@ -139,7 +158,24 @@ public class MainActivity extends AppCompatActivity {
             {
                 case 0:
 
-                   // view = PlaceholderFragment.newInstance(position + 1);
+                   // contact list
+
+
+            /*        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_CONTACTS)
+                            != PackageManager.PERMISSION_GRANTED
+                            || ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_CONTACTS)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        // Contacts permissions have not been granted.
+                        Log.i("tttt", "Contact permissions has NOT been granted. Requesting permissions.");
+
+                        requestContactsPermissions();
+
+                    } else {
+
+                        view = new Frag1();
+
+                    }*/
+
                     view = new Frag1();
                     break;
                 case 1:
@@ -159,10 +195,75 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        @Override
+
+/*
+
+        private void requestContactsPermissions() {
+            // BEGIN_INCLUDE(contacts_permission_request)
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                    Manifest.permission.READ_CONTACTS)
+                    ) {
+
+                // Provide an additional rationale to the user if the permission was not granted
+                // and the user would benefit from additional context for the use of the permission.
+                // For example, if the request has been denied previously.
+                Log.i("xxxx",
+                        "Displaying contacts permission rationale to provide additional context.");
+
+                // Display a SnackBar with an explanation and a button to trigger the request.
+                Snackbar.make(mLayout, R.string.permission_contacts_rationale,
+                        Snackbar.LENGTH_INDEFINITE)
+                        .setAction("OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ActivityCompat
+                                        .requestPermissions(MainActivity.this, PERMISSIONS_CONTACT,
+                                                REQUEST_CONTACTS);
+                            }
+                        })
+                        .show();
+            } else {
+                // Contact permissions have not been granted yet. Request them directly.
+                ActivityCompat.requestPermissions(MainActivity.this, PERMISSIONS_CONTACT, REQUEST_CONTACTS);
+            }
+            // END_INCLUDE(contacts_permission_request)
+        }
+
+        */
+
+
+            @Override
         public int getCount() {
             // Show 3 total pages.
             return 2;
         }
     }
+
+    /*
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+
+        if (requestCode == REQUEST_CONTACTS) {
+            Log.i(TAG, "Received response for contact permissions request.");
+
+            // We have requested multiple permissions for contacts, so all of them need to be
+            // checked.
+            if (PermissionUtil.verifyPermissions(grantResults)) {
+                // All required permissions have been granted, display contacts fragment.
+                Snackbar.make(mLayout, R.string.permision_available_contacts,
+                        Snackbar.LENGTH_SHORT)
+                        .show();
+            } else {
+                Log.i(TAG, "Contacts permissions were NOT granted.");
+                Snackbar.make(mLayout, R.string.permissions_not_granted,
+                        Snackbar.LENGTH_SHORT)
+                        .show();
+            }
+
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+    */
 }

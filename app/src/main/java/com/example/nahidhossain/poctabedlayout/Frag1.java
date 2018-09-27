@@ -7,6 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.List;
 
 
 /**
@@ -27,7 +32,9 @@ public class Frag1 extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    String[] NAMES ={"Name A","Name B"};
 
+    String[] DESCRIPTIONS ={"Description 1", "Description 2"};
 
     public Frag1() {
         // Required empty public constructor
@@ -58,13 +65,61 @@ public class Frag1 extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_frag1, container, false);
+
+        View rootView =inflater.inflate(R.layout.fragment_frag1, container, false);
+        ListView listView=(ListView) rootView.findViewById(R.id.listView);
+        CustomeAdapter customeAdapter = new CustomeAdapter();
+        listView.setAdapter(customeAdapter);
+
+        return rootView;
     }
+
+    class  CustomeAdapter extends BaseAdapter{
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            convertView = getLayoutInflater().inflate(R.layout.customlayout,null);
+
+            TextView name = (TextView) convertView.findViewById(R.id.textView_name);
+            TextView description = (TextView) convertView.findViewById(R.id.textView_desc);
+
+            name.setText(NAMES[position]);
+            description.setText(DESCRIPTIONS[position]);
+
+            return  convertView;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 
 }
