@@ -13,9 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -119,6 +121,11 @@ public class frag2 extends Fragment  {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getContracts();
+    }
 
     private void requestContactsPermissions() {
         // BEGIN_INCLUDE(contacts_permission_request)
@@ -206,6 +213,20 @@ public class frag2 extends Fragment  {
         customAdapter = new CustomAdapter(getContext(), contactModelArrayList);
         ListView listView=(ListView) rootView.findViewById(R.id.listView);
         listView.setAdapter(customAdapter);
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                ContactModel contact = (ContactModel) adapterView.getItemAtPosition(position);
+
+                Toast.makeText(getContext(), "You Selected " + contact.getName()+ " contact", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
     }
 
 
