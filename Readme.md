@@ -28,4 +28,14 @@ Accesing contact list
 
 >> https://www.youtube.com/watch?v=g4_1UOFNLEY&t=0s&index=10&list=LLkeBfvnBN6vIVaRAAAzF0Lw
 
+>> https://demonuts.com/contact-list-listview/
+
+>> https://github.com/googlesamples/android-RuntimePermissions/blob/master/Application/src/main/java/com/example/android/system/runtimepermissions/MainActivity.java
+
+Permission Issue 
+
+>> https://stackoverflow.com/questions/32714787/android-m-permissions-onrequestpermissionsresult-not-being-called
+
+>> https://www.youtube.com/watch?v=fJECThXz8Os
+
 
