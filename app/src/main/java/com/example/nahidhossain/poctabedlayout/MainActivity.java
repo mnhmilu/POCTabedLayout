@@ -1,7 +1,9 @@
 package com.example.nahidhossain.poctabedlayout;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -30,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
 
+    SQLiteDatabaseHandler db;
+
+
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -55,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        db = new SQLiteDatabaseHandler(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -73,6 +79,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private  void CreateSchemaForApplication()
+    {
+        SQLiteDatabase db =this.openOrCreateDatabase("KeepInTouchDb",MODE_PRIVATE,null);
+        db.execSQL("CREATE TABLE IF NOT EXISTS tags ( tag_id INTEGER PRIMARY KEY,tag_name VARTCHAR)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS contact_tags_settings ( contact_tags_settings_id INTEGER PRIMARY KEY,tag_id INTEGER,days INT NOT NULL,FOREIGN KEY(tag_seeting_id) REFERENCES tags(tag_id))");
+
+
+
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -90,6 +107,11 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+            Intent in = new Intent(this,Main2Activity.class);
+            in.putExtra("some","some data");
+            startActivity(in);
+
             return true;
         }
 

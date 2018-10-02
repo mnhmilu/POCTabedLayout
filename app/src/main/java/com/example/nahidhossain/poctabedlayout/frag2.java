@@ -123,6 +123,9 @@ public class frag2 extends Fragment  {
 
     @Override
     public void onResume() {
+
+        //checkPermission();
+
         super.onResume();
         getContracts();
     }
@@ -196,15 +199,18 @@ public class frag2 extends Fragment  {
 
     public void getContracts()
     {
+
         contactModelArrayList = new ArrayList<>();
         Cursor phones = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
         while (phones.moveToNext()) {
             String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            String identity = phones.getString(phones.getColumnIndex(ContactsContract.Contacts._ID));
 
             ContactModel contactModel = new ContactModel();
             contactModel.setName(name);
             contactModel.setNumber(phoneNumber);
+            contactModel.setIdentity(identity);
             contactModelArrayList.add(contactModel);
             Log.d("name>>", name + "  " + phoneNumber);
         }
@@ -221,7 +227,7 @@ public class frag2 extends Fragment  {
 
                 ContactModel contact = (ContactModel) adapterView.getItemAtPosition(position);
 
-                Toast.makeText(getContext(), "You Selected " + contact.getName()+ " contact", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "You Selected " + contact.getIdentity()+ " as identity", Toast.LENGTH_SHORT).show();
             }
         });
 
