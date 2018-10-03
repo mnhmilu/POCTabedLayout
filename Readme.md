@@ -24,7 +24,7 @@ Example of custom adapter with list view
 
 >> https://www.youtube.com/watch?v=a07GtTjrE20&t=0s&index=3&list=LLkeBfvnBN6vIVaRAAAzF0Lw
 
-Example of customer framgments
+Example of custom framgments
 
 >> https://www.youtube.com/watch?v=h4HwU_ENXYM&t=0s&index=4&list=LLkeBfvnBN6vIVaRAAAzF0Lw
 
