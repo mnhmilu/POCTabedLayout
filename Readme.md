@@ -9,6 +9,7 @@ Andriod project to show how fragment works with activity switching. Fragment to 
 2) Custom fragment example with switch 
 3) Fragment to Activity example 
 4) Button click example within framgment
+5) Notification example
 
 
 
@@ -37,5 +38,10 @@ Permission Issue
 >> https://stackoverflow.com/questions/32714787/android-m-permissions-onrequestpermissionsresult-not-being-called
 
 >> https://www.youtube.com/watch?v=fJECThXz8Os
+
+Notifiation Example
+
+>> https://www.youtube.com/watch?v=NgQzJ0s0XmM
+
 
 
