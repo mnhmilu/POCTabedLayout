@@ -9,6 +9,12 @@ public class TagModel {
     {
 
     }
+    public  TagModel(String tag_name)
+    {
+
+        this.tag_name=tag_name;
+    }
+
 
     public  TagModel(int tag_id,String tag_name)
     {

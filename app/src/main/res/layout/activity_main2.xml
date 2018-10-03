@@ -26,6 +26,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="Add Tag"
+            android:id="@+id/btnSubmit"
+            />
             <ListView
             android:id="@+id/listViewTag"
             android:layout_width="match_parent"
