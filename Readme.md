@@ -18,7 +18,7 @@ Andriod project to show how fragment works with activity switching. Fragment to 
 
 ## References:
 
-Example of customer adapter with list view
+Example of custom adapter with list view
 
 >> https://www.youtube.com/watch?v=FKUlw7mFXRM
 
