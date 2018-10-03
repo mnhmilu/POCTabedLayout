@@ -9,8 +9,10 @@ Andriod project to show how fragment works with activity switching. Fragment to 
 2) Custom fragment example with switch 
 3) Fragment to Activity example 
 4) Button click example within framgment
-5) Notification example
+5) Notification example (Pending)
 6) SQLLite Example with Crud operation
+7) Widget Example (Pending)
+8) Background Process run each day specific time (Pending)
 
 
 
