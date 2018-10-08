@@ -1,4 +1,4 @@
-package com.example.nahidhossain.poctabedlayout;
+package com.mnhmilu.app.bondmaker;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.nahidhossain.poctabedlayout", appContext.getPackageName());
+        assertEquals("com.mnhmilu.nahidhossain.poctabedlayout", appContext.getPackageName());
     }
 }

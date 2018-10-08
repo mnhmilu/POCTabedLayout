@@ -1,4 +1,4 @@
-package com.example.nahidhossain.poctabedlayout;
+package com.mnhmilu.app.bondmaker;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -138,7 +138,7 @@ public class frag2 extends Fragment  {
 
             // Provide an additional rationale to the user if the permission was not granted
             // and the user would benefit from additional context for the use of the permission.
-            // For example, if the request has been denied previously.
+            // For mnhmilu, if the request has been denied previously.
             Log.i("xxxx",
                     "Displaying contacts permission rationale to provide additional context.");
 
