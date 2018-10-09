@@ -94,7 +94,7 @@ public class CustomeAdapterForTagList extends BaseAdapter {
             vh = new ViewHolder();
             row = inflater.inflate(R.layout.lv_item_tag, null, true);
 
-            vh.textViewId = (TextView) row.findViewById(R.id.textViewId);
+           // vh.textViewId = (TextView) row.findViewById(R.id.textViewId);
             vh.tagName = (TextView) row.findViewById(R.id.tag_name);
             vh.editButton = (Button) row.findViewById(R.id.edit);
             vh.deleteButton = (Button) row.findViewById(R.id.delete);
@@ -107,7 +107,7 @@ public class CustomeAdapterForTagList extends BaseAdapter {
         }
 
         vh.tagName.setText(tagModelArrayList.get(position).getTag_name());
-        vh.textViewId.setText("" + tagModelArrayList.get(position).getTag_id());
+//        vh.textViewId.setText("" + tagModelArrayList.get(position).getTag_id());
 
         final int positionPopup = position;
         vh.editButton.setOnClickListener(new View.OnClickListener() {

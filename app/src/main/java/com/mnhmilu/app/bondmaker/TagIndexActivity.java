@@ -43,7 +43,7 @@ public class TagIndexActivity extends AppCompatActivity {
 
         db = new SQLiteDatabaseHandler(this);
 
-
+/*
         TagModel test = new TagModel();
         test.setTag_name("Test 1");
         db.addTag(test);
@@ -51,7 +51,7 @@ public class TagIndexActivity extends AppCompatActivity {
         TagModel test2 = new TagModel();
         test2.setTag_name("Test 2");
         db.addTag(test2);
-
+*/
         tagModelArrayList = (ArrayList) db.getAllTagModels();
 
         customAdapter = new CustomeAdapterForTagList(this, tagModelArrayList,db);
