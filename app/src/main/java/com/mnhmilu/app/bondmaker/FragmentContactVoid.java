@@ -1,7 +1,5 @@
 package com.mnhmilu.app.bondmaker;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,12 +10,12 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Frag3.OnFragmentInteractionListener} interface
+ * {@link FragmentContactVoid.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Frag3#newInstance} factory method to
+ * Use the {@link FragmentContactVoid#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Frag3 extends Fragment {
+public class FragmentContactVoid extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,7 +27,7 @@ public class Frag3 extends Fragment {
 
 
 
-    public Frag3() {
+    public FragmentContactVoid() {
         // Required empty public constructor
     }
 
@@ -39,11 +37,11 @@ public class Frag3 extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Frag3.
+     * @return A new instance of fragment FragmentContactVoid.
      */
     // TODO: Rename and change types and number of parameters
-    public static Frag3 newInstance(String param1, String param2) {
-        Frag3 fragment = new Frag3();
+    public static FragmentContactVoid newInstance(String param1, String param2) {
+        FragmentContactVoid fragment = new FragmentContactVoid();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

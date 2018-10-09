@@ -1,30 +1,23 @@
 package com.mnhmilu.app.bondmaker;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import java.util.List;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Frag1.OnFragmentInteractionListener} interface
+ * {@link FragmentHome.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Frag1#newInstance} factory method to
+ * Use the {@link FragmentHome#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Frag1 extends Fragment implements View.OnClickListener {
+public class FragmentHome extends Fragment implements View.OnClickListener {
 
 
     Button btn;
@@ -40,7 +33,7 @@ public class Frag1 extends Fragment implements View.OnClickListener {
     private String mParam2;
 
 
-    public Frag1() {
+    public FragmentHome() {
         // Required empty public constructor
     }
 
@@ -50,11 +43,11 @@ public class Frag1 extends Fragment implements View.OnClickListener {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment frag2.
+     * @return A new instance of fragment FragmentContact.
      */
     // TODO: Rename and change types and number of parameters
-    public static Frag1 newInstance(String param1, String param2) {
-        Frag1 fragment = new Frag1();
+    public static FragmentHome newInstance(String param1, String param2) {
+        FragmentHome fragment = new FragmentHome();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -66,7 +59,7 @@ public class Frag1 extends Fragment implements View.OnClickListener {
 
         /* mnhmilu of fragment switching exmaple
 
-        Frag3 fragment3 = new Frag3();
+        FragmentContactVoid fragment3 = new FragmentContactVoid();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_content, fragment3);
@@ -75,7 +68,7 @@ public class Frag1 extends Fragment implements View.OnClickListener {
         */
 
         /* mnhmilu of fragment to activity switching */
-        Intent in = new Intent(getActivity(),Main2Activity.class);
+        Intent in = new Intent(getActivity(),TagIndexActivity.class);
         in.putExtra("some","some data");
         startActivity(in);
     }

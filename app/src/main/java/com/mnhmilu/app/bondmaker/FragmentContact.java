@@ -14,9 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -27,10 +25,10 @@ import java.util.ArrayList;
  * Activities that contain this fragment must implement the
 
  * to handle interaction events.
- * Use the {@link frag2#newInstance} factory method to
+ * Use the {@link FragmentContact#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class frag2 extends Fragment  {
+public class FragmentContact extends Fragment  {
 
     private CustomAdapter customAdapter;
     private ArrayList<ContactModel> contactModelArrayList;
@@ -60,7 +58,7 @@ public class frag2 extends Fragment  {
 
     String[] DESCRIPTIONS ={"Description 1", "Description 2"};
 
-    public frag2() {
+    public FragmentContact() {
         // Required empty public constructor
     }
 
@@ -70,11 +68,11 @@ public class frag2 extends Fragment  {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Frag1.
+     * @return A new instance of fragment FragmentHome.
      */
     // TODO: Rename and change types and number of parameters
-    public static frag2 newInstance(String param1, String param2) {
-        frag2 fragment = new frag2();
+    public static FragmentContact newInstance(String param1, String param2) {
+        FragmentContact fragment = new FragmentContact();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

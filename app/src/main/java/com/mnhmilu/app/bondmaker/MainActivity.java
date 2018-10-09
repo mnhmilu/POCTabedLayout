@@ -2,23 +2,16 @@ package com.mnhmilu.app.bondmaker;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.app.AppCompatActivity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -108,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
 
-            Intent in = new Intent(this,Main2Activity.class);
+            Intent in = new Intent(this,TagIndexActivity.class);
             in.putExtra("some","some data");
             startActivity(in);
 
@@ -169,14 +162,14 @@ public class MainActivity extends AppCompatActivity {
 
             switch (position) {
                 case 0:
-                    view = new Frag1();
+                    view = new FragmentHome();
                     break;
                 case 1:
-                    view = new frag2();
+                    view = new FragmentContact();
                     break;
 
                 case 2:
-                    view = new frag2();
+                    view = new FragmentContact();
                     break;
            }
 

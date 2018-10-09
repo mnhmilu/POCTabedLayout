@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class Main2Activity extends AppCompatActivity {
+public class TagIndexActivity extends AppCompatActivity {
 
     private ArrayList<TagModel> tagModelArrayList;
     private ListView listView;
