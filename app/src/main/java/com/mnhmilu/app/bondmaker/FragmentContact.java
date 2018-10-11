@@ -294,7 +294,6 @@ public class FragmentContact extends Fragment {
                 int date = cursorLastCall.getColumnIndex(CallLog.Calls.DATE);
                 //  String testDate = cursorLastCall.getString(cursorLastCall.getColumnIndex(CallLog.Calls.DATE));
 
-
                 String callDate = cursorLastCall.getString(date);
                 Date callDayTime = new Date(Long.valueOf(callDate));
 

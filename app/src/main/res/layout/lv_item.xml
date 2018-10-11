@@ -5,16 +5,17 @@
     android:background="#ffffff"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="68dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="wrap_content"
+            android:layout_width="316dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:text="Name"
@@ -25,9 +26,10 @@
             android:id="@+id/number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
             android:text="ds"
+            android:paddingLeft="10dp"
             android:textColor="#000000"
             android:textSize="15sp" />
 
@@ -35,9 +37,10 @@
             android:id="@+id/lastCallDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
             android:text="Na"
+            android:paddingLeft="10dp"
             android:textColor="#000000"
             android:textSize="15sp" />
 
@@ -45,21 +48,14 @@
             android:id="@+id/elapsedDays"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
             android:text="Na"
+            android:paddingRight="10dp"
             android:textColor="#000000"
             android:textSize="15sp" />
 
 
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@color/colorAccent"/>
+    </RelativeLayout>
 
 </LinearLayout>

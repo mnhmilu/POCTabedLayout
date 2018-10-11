@@ -6,7 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParsePosition;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Parsania Hardik on 11-May-17.
@@ -75,8 +80,13 @@ public class CustomAdapter extends BaseAdapter {
         holder.tvnumber.setText(contactModelArrayList.get(position).getNumber());
 
         if(contactModelArrayList.get(position).getLastCallDate()!=null) {
-            holder.tvlastcalldate.setText(contactModelArrayList.get(position).getLastCallDate().toString());
-            holder.tvelapsedDay.setText(String.valueOf(contactModelArrayList.get(position).getDayElapsed())+" days");
+
+//            DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(this.context);
+          //  String date = dateFormat.format(contactModelArrayList.get(position).getLastCallDate());
+
+            String date=   DateFormat.getDateInstance().format(contactModelArrayList.get(position).getLastCallDate());
+            holder.tvlastcalldate.setText("Last Called: "+date);
+            holder.tvelapsedDay.setText("Day Elapsed: "+String.valueOf(contactModelArrayList.get(position).getDayElapsed())+" days");
         }
 
 
