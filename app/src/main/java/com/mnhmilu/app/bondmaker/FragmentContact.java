@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -17,7 +18,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 /**
@@ -35,6 +40,7 @@ public class FragmentContact extends Fragment  {
     private ListView listView;
     private View mLayout;
     private static final int REQUEST_CONTACTS = 1;
+    private static final int REQUEST_READ_CALLLOG = 2;
 
     public static final String TAG = "MainActivity";
 
@@ -116,6 +122,14 @@ public class FragmentContact extends Fragment  {
             requestContactsPermissions();
         }
 
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CALL_LOG)
+                != PackageManager.PERMISSION_GRANTED
+                ) {
+            // Contacts permissions have not been granted.
+            Log.i("MainActivity", "Contact permissions has NOT been granted. Requesting permissions.");
+            requestCallLogPermissions();
+        }
+
 
     }
 
@@ -125,7 +139,11 @@ public class FragmentContact extends Fragment  {
         //checkPermission();
 
         super.onResume();
-        getContracts();
+        try {
+            getContracts();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     private void requestContactsPermissions() {
@@ -163,6 +181,36 @@ public class FragmentContact extends Fragment  {
         // END_INCLUDE(contacts_permission_request)
     }
 
+    private void requestCallLogPermissions() {
+        // BEGIN_INCLUDE(contacts_permission_request)
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this.getActivity(),
+                Manifest.permission.READ_CALL_LOG)
+                ) {
+
+            // Provide an additional rationale to the user if the permission was not granted
+            // and the user would benefit from additional context for the use of the permission.
+            // For mnhmilu, if the request has been denied previously.
+            Log.i("xxxx",
+                    "Displaying call history permission rationale to provide additional context.");
+
+            // Display a SnackBar with an explanation and a button to trigger the request.
+            Snackbar.make(mLayout, R.string.permission_contacts_rationale,
+                    Snackbar.LENGTH_INDEFINITE)
+                    .setAction("OK", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                         requestPermissions(new String[]{ Manifest.permission.READ_CALL_LOG},REQUEST_READ_CALLLOG);
+
+                        }
+                    })
+                    .show();
+        } else {
+
+            requestPermissions(new String[]{ Manifest.permission.READ_CALL_LOG},REQUEST_READ_CALLLOG);
+        }
+        // END_INCLUDE(contacts_permission_request)
+    }
+
 
 
 
@@ -173,15 +221,14 @@ public class FragmentContact extends Fragment  {
         if (requestCode == REQUEST_CONTACTS) {
             Log.i(TAG, "Received response for contact permissions request.");
 
-            // We have requested multiple permissions for contacts, so all of them need to be
-            // checked.
-            if (PermissionUtil.verifyPermissions(grantResults)) {
-                // All required permissions have been granted, display contacts fragment.
-              //  Snackbar.make(mLayout, R.string.permision_available_contacts,
-                     //   Snackbar.LENGTH_SHORT)
-                      //  .show();
 
-                getContracts();
+            if (PermissionUtil.verifyPermissions(grantResults)) {
+
+                try {
+                    getContracts();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
             } else {
                 Log.i(TAG, "Contacts permissions were NOT granted.");
@@ -190,15 +237,29 @@ public class FragmentContact extends Fragment  {
                         .show();
             }
 
-        } else {
+       }   else if (requestCode == REQUEST_READ_CALLLOG) {
+
+            Log.i(TAG, "Received response for read log permissions request.");
+            if (PermissionUtil.verifyPermissions(grantResults)) {
+               // getContracts();
+
+            } else {
+                Log.i(TAG, "Read log permissions were NOT granted.");
+                Snackbar.make(mLayout, R.string.permissions_not_granted,
+                        Snackbar.LENGTH_SHORT)
+                        .show();
+            }
+        }
+       else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
-    public void getContracts()
-    {
+    public void getContracts() throws ParseException {
+       // if (PermissionUtil.verifyPermissions(grantResults)) {
 
         contactModelArrayList = new ArrayList<>();
+        //TODO: add check permission to avoid crash
         Cursor phones = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
         while (phones.moveToNext()) {
             String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
@@ -210,9 +271,51 @@ public class FragmentContact extends Fragment  {
             contactModel.setNumber(phoneNumber);
             contactModel.setIdentity(identity);
             contactModelArrayList.add(contactModel);
-            Log.d("name>>", name + "  " + phoneNumber);
+            //Log.d("name>>", name + "  " + phoneNumber);
         }
         phones.close();
+
+
+
+        for(ContactModel item:contactModelArrayList)
+        {
+            /////
+            Cursor cursorLastCall =  getActivity().getContentResolver().query(CallLog.Calls.CONTENT_URI,
+                    new String[] { CallLog.Calls.DATE, CallLog.Calls.DURATION,
+                            CallLog.Calls.NUMBER, CallLog.Calls._ID },
+                    CallLog.Calls.NUMBER + "=?",
+                    new String[] { item.getNumber()},
+                    CallLog.Calls.DATE + " DESC limit 1");
+
+
+
+          if(cursorLastCall != null &&  cursorLastCall.getCount() >0) {
+              cursorLastCall.moveToLast();
+
+              int date = cursorLastCall.getColumnIndex(CallLog.Calls.DATE);
+            //  String testDate = cursorLastCall.getString(cursorLastCall.getColumnIndex(CallLog.Calls.DATE));
+
+              String callDate = cursorLastCall.getString(date);
+              Date callDayTime = new Date(Long.valueOf(callDate));
+
+              DateFormat dt = android.text.format.DateFormat.getDateFormat(this.getContext());
+              String formattedDate = dt.format(callDayTime);
+
+              Log.d("Last Call date>>", item.getNumber() + "  " + dt.format(callDayTime));
+              item.setLastCallDate(callDayTime);
+
+          }
+            cursorLastCall= null;
+           // cursorLastCall.close();
+          //  Date  test =     int date = managedCursor.getColumnIndex(CallLog.Calls.DATE);
+          //  item.setLastCallDate();
+            ////
+        }
+
+
+
+
+
 
         customAdapter = new CustomAdapter(getContext(), contactModelArrayList);
         ListView listView=(ListView) rootView.findViewById(R.id.listView);

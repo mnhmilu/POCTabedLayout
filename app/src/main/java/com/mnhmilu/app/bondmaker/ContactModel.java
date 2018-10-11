@@ -1,8 +1,21 @@
 package com.mnhmilu.app.bondmaker;
 
+import java.util.Date;
+
 public class ContactModel {
 
     private String name, number,identity;
+
+    private Date lastCallDate;
+
+
+    public Date getLastCallDate() {
+        return lastCallDate;
+    }
+
+    public void setLastCallDate(Date lastCallDate) {
+        this.lastCallDate = lastCallDate;
+    }
 
     public String getIdentity() {
         return identity;
