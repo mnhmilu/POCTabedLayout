@@ -18,9 +18,15 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.joda.time.DateMidnight;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -28,12 +34,12 @@ import java.util.Date;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
-
+ * <p>
  * to handle interaction events.
  * Use the {@link FragmentContact#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentContact extends Fragment  {
+public class FragmentContact extends Fragment {
 
     private CustomAdapter customAdapter;
     private ArrayList<ContactModel> contactModelArrayList;
@@ -44,7 +50,7 @@ public class FragmentContact extends Fragment  {
 
     public static final String TAG = "MainActivity";
 
-    private static String[] PERMISSIONS_CONTACT = {Manifest.permission.READ_CONTACTS };
+    private static String[] PERMISSIONS_CONTACT = {Manifest.permission.READ_CONTACTS};
 
 
 ///////////////////
@@ -60,9 +66,9 @@ public class FragmentContact extends Fragment  {
 
     View rootView;
 
-    String[] NAMES ={"Name A","Name B"};
+    String[] NAMES = {"Name A", "Name B"};
 
-    String[] DESCRIPTIONS ={"Description 1", "Description 2"};
+    String[] DESCRIPTIONS = {"Description 1", "Description 2"};
 
     public FragmentContact() {
         // Required empty public constructor
@@ -102,8 +108,8 @@ public class FragmentContact extends Fragment  {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        rootView =inflater.inflate(R.layout.fragment_frag2, container, false);
-        mLayout=  rootView.findViewById(R.id.main_content);
+        rootView = inflater.inflate(R.layout.fragment_frag2, container, false);
+        mLayout = rootView.findViewById(R.id.main_content);
 
         checkPermission();
 
@@ -111,8 +117,7 @@ public class FragmentContact extends Fragment  {
     }
 
 
-    private void checkPermission()
-    {
+    private void checkPermission() {
 
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED
@@ -164,19 +169,19 @@ public class FragmentContact extends Fragment  {
                     .setAction("OK", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                         //   ActivityCompat
-                                 //   .requestPermissions(getActivity(), PERMISSIONS_CONTACT,
-                                       //     REQUEST_CONTACTS);
+                            //   ActivityCompat
+                            //   .requestPermissions(getActivity(), PERMISSIONS_CONTACT,
+                            //     REQUEST_CONTACTS);
 
-                            requestPermissions(new String[]{ Manifest.permission.READ_CONTACTS},REQUEST_CONTACTS);
+                            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CONTACTS);
 
                         }
                     })
                     .show();
         } else {
             // Contact permissions have not been granted yet. Request them directly.
-           /// ActivityCompat.requestPermissions(getActivity(), PERMISSIONS_CONTACT, REQUEST_CONTACTS);
-            requestPermissions(new String[]{ Manifest.permission.READ_CONTACTS},REQUEST_CONTACTS);
+            /// ActivityCompat.requestPermissions(getActivity(), PERMISSIONS_CONTACT, REQUEST_CONTACTS);
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CONTACTS);
         }
         // END_INCLUDE(contacts_permission_request)
     }
@@ -199,19 +204,17 @@ public class FragmentContact extends Fragment  {
                     .setAction("OK", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                         requestPermissions(new String[]{ Manifest.permission.READ_CALL_LOG},REQUEST_READ_CALLLOG);
+                            requestPermissions(new String[]{Manifest.permission.READ_CALL_LOG}, REQUEST_READ_CALLLOG);
 
                         }
                     })
                     .show();
         } else {
 
-            requestPermissions(new String[]{ Manifest.permission.READ_CALL_LOG},REQUEST_READ_CALLLOG);
+            requestPermissions(new String[]{Manifest.permission.READ_CALL_LOG}, REQUEST_READ_CALLLOG);
         }
         // END_INCLUDE(contacts_permission_request)
     }
-
-
 
 
     @Override
@@ -237,11 +240,11 @@ public class FragmentContact extends Fragment  {
                         .show();
             }
 
-       }   else if (requestCode == REQUEST_READ_CALLLOG) {
+        } else if (requestCode == REQUEST_READ_CALLLOG) {
 
             Log.i(TAG, "Received response for read log permissions request.");
             if (PermissionUtil.verifyPermissions(grantResults)) {
-               // getContracts();
+                // getContracts();
 
             } else {
                 Log.i(TAG, "Read log permissions were NOT granted.");
@@ -249,14 +252,13 @@ public class FragmentContact extends Fragment  {
                         Snackbar.LENGTH_SHORT)
                         .show();
             }
-        }
-       else {
+        } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
     public void getContracts() throws ParseException {
-       // if (PermissionUtil.verifyPermissions(grantResults)) {
+        // if (PermissionUtil.verifyPermissions(grantResults)) {
 
         contactModelArrayList = new ArrayList<>();
         //TODO: add check permission to avoid crash
@@ -276,49 +278,62 @@ public class FragmentContact extends Fragment  {
         phones.close();
 
 
-
-        for(ContactModel item:contactModelArrayList)
-        {
+        for (ContactModel item : contactModelArrayList) {
             /////
-            Cursor cursorLastCall =  getActivity().getContentResolver().query(CallLog.Calls.CONTENT_URI,
-                    new String[] { CallLog.Calls.DATE, CallLog.Calls.DURATION,
-                            CallLog.Calls.NUMBER, CallLog.Calls._ID },
+            Cursor cursorLastCall = getActivity().getContentResolver().query(CallLog.Calls.CONTENT_URI,
+                    new String[]{CallLog.Calls.DATE, CallLog.Calls.DURATION,
+                            CallLog.Calls.NUMBER, CallLog.Calls._ID},
                     CallLog.Calls.NUMBER + "=?",
-                    new String[] { item.getNumber()},
+                    new String[]{item.getNumber()},
                     CallLog.Calls.DATE + " DESC limit 1");
 
 
+            if (cursorLastCall != null && cursorLastCall.getCount() > 0) {
+                cursorLastCall.moveToLast();
 
-          if(cursorLastCall != null &&  cursorLastCall.getCount() >0) {
-              cursorLastCall.moveToLast();
+                int date = cursorLastCall.getColumnIndex(CallLog.Calls.DATE);
+                //  String testDate = cursorLastCall.getString(cursorLastCall.getColumnIndex(CallLog.Calls.DATE));
 
-              int date = cursorLastCall.getColumnIndex(CallLog.Calls.DATE);
-            //  String testDate = cursorLastCall.getString(cursorLastCall.getColumnIndex(CallLog.Calls.DATE));
 
-              String callDate = cursorLastCall.getString(date);
-              Date callDayTime = new Date(Long.valueOf(callDate));
+                String callDate = cursorLastCall.getString(date);
+                Date callDayTime = new Date(Long.valueOf(callDate));
 
-              DateFormat dt = android.text.format.DateFormat.getDateFormat(this.getContext());
-              String formattedDate = dt.format(callDayTime);
+                DateFormat dt = android.text.format.DateFormat.getDateFormat(this.getContext());
+                String formattedDate = dt.format(callDayTime);
 
-              Log.d("Last Call date>>", item.getNumber() + "  " + dt.format(callDayTime));
-              item.setLastCallDate(callDayTime);
+                Log.d("Last Call date>>", item.getNumber() + "  " + dt.format(callDayTime) + "  Month: " + callDayTime.getMonth());
+                item.setLastCallDate(callDayTime);
 
-          }
-            cursorLastCall= null;
-           // cursorLastCall.close();
-          //  Date  test =     int date = managedCursor.getColumnIndex(CallLog.Calls.DATE);
-          //  item.setLastCallDate();
+
+                long diff = new Date().getTime()-callDayTime.getTime();
+                long seconds = diff/1000;
+                long minutes = seconds / 60;
+                long hours = minutes / 60;
+                long days = hours / 24;
+
+                long l = days;
+                int i = (int) l;
+
+                item.setDayElapsed(i);
+
+              /*  if (callDayTime.getMonth() > 0) {
+                    DateTime prevDay = new DateTime(callDayTime.getYear(), callDayTime.getMonth(), callDayTime.getDay(), 0, 0, 0, 0);
+                    DateTime today = new DateTime();
+
+                    item.setDayElapsed(Days.daysBetween(prevDay, today).getDays());
+
+                }*/
+            }
+            cursorLastCall = null;
+            // cursorLastCall.close();
+            //  Date  test =     int date = managedCursor.getColumnIndex(CallLog.Calls.DATE);
+            //  item.setLastCallDate();
             ////
         }
 
 
-
-
-
-
         customAdapter = new CustomAdapter(getContext(), contactModelArrayList);
-        ListView listView=(ListView) rootView.findViewById(R.id.listView);
+        ListView listView = (ListView) rootView.findViewById(R.id.listView);
         listView.setAdapter(customAdapter);
 
 
@@ -328,10 +343,9 @@ public class FragmentContact extends Fragment  {
 
                 ContactModel contact = (ContactModel) adapterView.getItemAtPosition(position);
 
-                Toast.makeText(getContext(), "You Selected " + contact.getIdentity()+ " as identity", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "You Selected " + contact.getIdentity() + " as identity", Toast.LENGTH_SHORT).show();
             }
         });
-
 
 
     }

@@ -8,6 +8,15 @@ public class ContactModel {
 
     private Date lastCallDate;
 
+    private int dayElapsed;
+
+    public int getDayElapsed() {
+        return dayElapsed;
+    }
+
+    public void setDayElapsed(int dayElapsed) {
+        this.dayElapsed = dayElapsed;
+    }
 
     public Date getLastCallDate() {
         return lastCallDate;

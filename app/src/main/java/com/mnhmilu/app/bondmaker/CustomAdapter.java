@@ -61,6 +61,9 @@ public class CustomAdapter extends BaseAdapter {
             holder.tvname = (TextView) convertView.findViewById(R.id.name);
             holder.tvnumber = (TextView) convertView.findViewById(R.id.number);
             holder.tvlastcalldate= (TextView) convertView.findViewById(R.id.lastCallDate);
+            holder.tvelapsedDay= (TextView) convertView.findViewById(R.id.elapsedDays);
+
+
 
             convertView.setTag(holder);
         } else {
@@ -73,13 +76,16 @@ public class CustomAdapter extends BaseAdapter {
 
         if(contactModelArrayList.get(position).getLastCallDate()!=null) {
             holder.tvlastcalldate.setText(contactModelArrayList.get(position).getLastCallDate().toString());
+            holder.tvelapsedDay.setText(String.valueOf(contactModelArrayList.get(position).getDayElapsed())+" days");
         }
+
+
         return convertView;
     }
 
     private class ViewHolder {
 
-        protected TextView tvname, tvnumber,tvlastcalldate;
+        protected TextView tvname, tvnumber,tvlastcalldate,tvelapsedDay;
 
     }
 
