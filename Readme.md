@@ -40,7 +40,9 @@ Permission Issue
 
 >> https://stackoverflow.com/questions/32714787/android-m-permissions-onrequestpermissionsresult-not-being-called
 
->> https://www.youtube.com/watch?v=fJECThXz8Os
+Multiple Permission in an easy way
+
+>> https://www.youtube.com/watch?v=iqFRdjYqGPo
 
 Notifiation Example
 
