@@ -1,8 +1,11 @@
 package com.mnhmilu.app.bondmaker;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.CallLog;
 import android.provider.ContactsContract;
@@ -100,7 +103,33 @@ public class FragmentContact extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        int permission_all =1;
+        String[] permissions={Manifest.permission.READ_CONTACTS,Manifest.permission.READ_CALL_LOG};
+
+        if(!hasPermission(this.getContext(),permissions))
+        {
+            ActivityCompat.requestPermissions(this.getActivity(),permissions,permission_all);
+        }
+
+
     }
+
+
+
+    public static boolean hasPermission(Context context, String... permissions)
+    {
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M && context!=null && permissions!=null ){
+            for(String permission:permissions)
+            {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED
+                        ) {
+                    return  false;
+                }
+                }
+            }
+            return  true;
+    }
+
 
 
     @Override
@@ -111,12 +140,12 @@ public class FragmentContact extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_frag2, container, false);
         mLayout = rootView.findViewById(R.id.main_content);
 
-        checkPermission();
+      //  checkPermission();
 
         return rootView;
     }
 
-
+/*
     private void checkPermission() {
 
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CONTACTS)
@@ -137,6 +166,7 @@ public class FragmentContact extends Fragment {
 
 
     }
+    */
 
     @Override
     public void onResume() {
@@ -216,7 +246,7 @@ public class FragmentContact extends Fragment {
         // END_INCLUDE(contacts_permission_request)
     }
 
-
+/*
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -256,6 +286,8 @@ public class FragmentContact extends Fragment {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
+
+    */
 
     public void getContracts() throws ParseException {
         // if (PermissionUtil.verifyPermissions(grantResults)) {
@@ -345,59 +377,6 @@ public class FragmentContact extends Fragment {
                 Toast.makeText(getContext(), "You Selected " + contact.getIdentity() + " as identity", Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
-
-
-    /*
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
-        View rootView =inflater.inflate(R.layout.fragment_frag2, container, false);
-        ListView listView=(ListView) rootView.findViewById(R.id.listView);
-        CustomeAdapter customeAdapter = new CustomeAdapter();
-        listView.setAdapter(customeAdapter);
-
-        return rootView;
-    }
-
-
-
-    class  CustomeAdapter extends BaseAdapter {
-
-        @Override
-        public int getCount() {
-            return 2;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = getLayoutInflater().inflate(R.layout.customlayout,null);
-
-            TextView name = (TextView) convertView.findViewById(R.id.textView_name);
-            TextView description = (TextView) convertView.findViewById(R.id.textView_desc);
-
-            name.setText(NAMES[position]);
-            description.setText(DESCRIPTIONS[position]);
-
-            return  convertView;
-        }
-    }
-
-    */
 
 }
