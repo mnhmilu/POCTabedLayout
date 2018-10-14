@@ -48,12 +48,7 @@ public class FragmentContact extends Fragment {
     private ArrayList<ContactModel> contactModelArrayList;
     private ListView listView;
     private View mLayout;
-    private static final int REQUEST_CONTACTS = 1;
-    private static final int REQUEST_READ_CALLLOG = 2;
-
     public static final String TAG = "MainActivity";
-
-    private static String[] PERMISSIONS_CONTACT = {Manifest.permission.READ_CONTACTS};
 
 
 ///////////////////
@@ -111,9 +106,7 @@ public class FragmentContact extends Fragment {
             ActivityCompat.requestPermissions(this.getActivity(),permissions,permission_all);
         }
 
-
     }
-
 
 
     public static boolean hasPermission(Context context, String... permissions)
@@ -131,7 +124,6 @@ public class FragmentContact extends Fragment {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -140,38 +132,13 @@ public class FragmentContact extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_frag2, container, false);
         mLayout = rootView.findViewById(R.id.main_content);
 
-      //  checkPermission();
-
         return rootView;
     }
 
-/*
-    private void checkPermission() {
 
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CONTACTS)
-                != PackageManager.PERMISSION_GRANTED
-                ) {
-            // Contacts permissions have not been granted.
-            Log.i("MainActivity", "Contact permissions has NOT been granted. Requesting permissions.");
-            requestContactsPermissions();
-        }
-
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CALL_LOG)
-                != PackageManager.PERMISSION_GRANTED
-                ) {
-            // Contacts permissions have not been granted.
-            Log.i("MainActivity", "Contact permissions has NOT been granted. Requesting permissions.");
-            requestCallLogPermissions();
-        }
-
-
-    }
-    */
 
     @Override
     public void onResume() {
-
-        //checkPermission();
 
         super.onResume();
         try {
@@ -180,114 +147,6 @@ public class FragmentContact extends Fragment {
             e.printStackTrace();
         }
     }
-
-    private void requestContactsPermissions() {
-        // BEGIN_INCLUDE(contacts_permission_request)
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this.getActivity(),
-                Manifest.permission.READ_CONTACTS)
-                ) {
-
-            // Provide an additional rationale to the user if the permission was not granted
-            // and the user would benefit from additional context for the use of the permission.
-            // For mnhmilu, if the request has been denied previously.
-            Log.i("xxxx",
-                    "Displaying contacts permission rationale to provide additional context.");
-
-            // Display a SnackBar with an explanation and a button to trigger the request.
-            Snackbar.make(mLayout, R.string.permission_contacts_rationale,
-                    Snackbar.LENGTH_INDEFINITE)
-                    .setAction("OK", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            //   ActivityCompat
-                            //   .requestPermissions(getActivity(), PERMISSIONS_CONTACT,
-                            //     REQUEST_CONTACTS);
-
-                            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CONTACTS);
-
-                        }
-                    })
-                    .show();
-        } else {
-            // Contact permissions have not been granted yet. Request them directly.
-            /// ActivityCompat.requestPermissions(getActivity(), PERMISSIONS_CONTACT, REQUEST_CONTACTS);
-            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CONTACTS);
-        }
-        // END_INCLUDE(contacts_permission_request)
-    }
-
-    private void requestCallLogPermissions() {
-        // BEGIN_INCLUDE(contacts_permission_request)
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this.getActivity(),
-                Manifest.permission.READ_CALL_LOG)
-                ) {
-
-            // Provide an additional rationale to the user if the permission was not granted
-            // and the user would benefit from additional context for the use of the permission.
-            // For mnhmilu, if the request has been denied previously.
-            Log.i("xxxx",
-                    "Displaying call history permission rationale to provide additional context.");
-
-            // Display a SnackBar with an explanation and a button to trigger the request.
-            Snackbar.make(mLayout, R.string.permission_contacts_rationale,
-                    Snackbar.LENGTH_INDEFINITE)
-                    .setAction("OK", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            requestPermissions(new String[]{Manifest.permission.READ_CALL_LOG}, REQUEST_READ_CALLLOG);
-
-                        }
-                    })
-                    .show();
-        } else {
-
-            requestPermissions(new String[]{Manifest.permission.READ_CALL_LOG}, REQUEST_READ_CALLLOG);
-        }
-        // END_INCLUDE(contacts_permission_request)
-    }
-
-/*
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-
-        if (requestCode == REQUEST_CONTACTS) {
-            Log.i(TAG, "Received response for contact permissions request.");
-
-
-            if (PermissionUtil.verifyPermissions(grantResults)) {
-
-                try {
-                    getContracts();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-            } else {
-                Log.i(TAG, "Contacts permissions were NOT granted.");
-                Snackbar.make(mLayout, R.string.permissions_not_granted,
-                        Snackbar.LENGTH_SHORT)
-                        .show();
-            }
-
-        } else if (requestCode == REQUEST_READ_CALLLOG) {
-
-            Log.i(TAG, "Received response for read log permissions request.");
-            if (PermissionUtil.verifyPermissions(grantResults)) {
-                // getContracts();
-
-            } else {
-                Log.i(TAG, "Read log permissions were NOT granted.");
-                Snackbar.make(mLayout, R.string.permissions_not_granted,
-                        Snackbar.LENGTH_SHORT)
-                        .show();
-            }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
-
-    */
 
     public void getContracts() throws ParseException {
         // if (PermissionUtil.verifyPermissions(grantResults)) {
@@ -347,19 +206,9 @@ public class FragmentContact extends Fragment {
 
                 item.setDayElapsed(i);
 
-              /*  if (callDayTime.getMonth() > 0) {
-                    DateTime prevDay = new DateTime(callDayTime.getYear(), callDayTime.getMonth(), callDayTime.getDay(), 0, 0, 0, 0);
-                    DateTime today = new DateTime();
 
-                    item.setDayElapsed(Days.daysBetween(prevDay, today).getDays());
-
-                }*/
             }
             cursorLastCall = null;
-            // cursorLastCall.close();
-            //  Date  test =     int date = managedCursor.getColumnIndex(CallLog.Calls.DATE);
-            //  item.setLastCallDate();
-            ////
         }
 
 
