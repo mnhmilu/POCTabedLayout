@@ -139,12 +139,6 @@ public class FragmentContact extends Fragment {
 
         new GetContactAsycTask().execute(progressView);
 
-        /*
-        try {
-            getContracts();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } */
     }
 
     class GetContactAsycTask extends AsyncTask<TextView, String, Boolean> {
@@ -153,13 +147,11 @@ public class FragmentContact extends Fragment {
 
         @Override
         protected void onPreExecute() {
-            customAdapter = new CustomAdapter(getContext(), contactModelArrayList);
             progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
             progressBar.setMax(15);
             progressBar.setProgress(0);
             progressBar.setVisibility(View.VISIBLE);
             count = 0;
-           // progressView = (TextView) rootView.findViewById(R.id.processStatus);
         }
 
         @Override
@@ -168,7 +160,6 @@ public class FragmentContact extends Fragment {
             Boolean returnValue = false;
 
             if (textViews.length > 0) {
-                //getContracts();
                 progressView=textViews[0];
                 int permission_all = 1;
                 String[] permissions = {Manifest.permission.READ_CONTACTS, Manifest.permission.READ_CALL_LOG};
@@ -181,25 +172,27 @@ public class FragmentContact extends Fragment {
                     //TODO: add check permission to avoid crash
 
                     publishProgress("Getting your coantact data");
-                    Cursor phones = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
-                    while (phones.moveToNext()) {
-                        String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                        String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        String identity = phones.getString(phones.getColumnIndex(ContactsContract.Contacts._ID));
+                    Cursor phones = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, "UPPER("+ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + ") ASC");
 
-                        ContactModel contactModel = new ContactModel();
-                        contactModel.setName(name);
-                        contactModel.setNumber(phoneNumber);
-                        contactModel.setIdentity(identity);
-                        contactModelArrayList.add(contactModel);
 
-                        publishProgress(name);
+                        while (phones.moveToNext()) {
+                            String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                            String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                            String identity = phones.getString(phones.getColumnIndex(ContactsContract.Contacts._ID));
 
-                        //Log.d("name>>", name + "  " + phoneNumber);
-                    }
+                            ContactModel contactModel = new ContactModel();
+                            contactModel.setName(name);
+                            contactModel.setNumber(phoneNumber);
+                            contactModel.setIdentity(identity);
+                            contactModelArrayList.add(contactModel);
+
+                            publishProgress("Getting your conatact information.......");
+
+                            //Log.d("name>>", name + "  " + phoneNumber);
+                        }
+
+
                     phones.close();
-
-                    publishProgress("Calculating ,how long you didn't call some body");
                     for (ContactModel item : contactModelArrayList) {
                         /////
                         Cursor cursorLastCall = getActivity().getContentResolver().query(CallLog.Calls.CONTENT_URI,
@@ -238,12 +231,12 @@ public class FragmentContact extends Fragment {
                             item.setDayElapsed(i);
 
                         }
-                        cursorLastCall = null;
-
+                        cursorLastCall.close();
+                        //cursorLastCall = null;
+                        publishProgress("Analyzing your call history..........");
                     }
                 }
                 returnValue = true;
-                publishProgress("Processing finised!");
             }
             return returnValue;
             //  return "Task done,All item are populated in the list";
@@ -264,12 +257,13 @@ public class FragmentContact extends Fragment {
 
                 progressView.setText("Processing Done!");
 
-                Toast.makeText(getContext(), "Task Done ,List already populated !", Toast.LENGTH_LONG).show();
+               // Toast.makeText(getContext(), " !", Toast.LENGTH_LONG).show();
                 progressBar.setVisibility(View.GONE);
 
                 customAdapter = new CustomAdapter(getContext(), contactModelArrayList);
                 ListView listView = (ListView) rootView.findViewById(R.id.listView);
                 listView.setAdapter(customAdapter);
+                listView.setVisibility(View.VISIBLE);
 
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -282,9 +276,7 @@ public class FragmentContact extends Fragment {
                     }
                 });
             }
-            {
-               // progressView.setText("Something wrong ! WEEEE");
-            }
+
         }
     }
 

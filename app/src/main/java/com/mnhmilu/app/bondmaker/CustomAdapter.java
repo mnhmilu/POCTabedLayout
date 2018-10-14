@@ -43,7 +43,11 @@ public class CustomAdapter extends BaseAdapter {
       //  return  0;
 
         if(contactModelArrayList!=null) {
-            return contactModelArrayList.size();
+
+            if(contactModelArrayList.size()==0)
+                return 1;
+            else
+                return contactModelArrayList.size();
         }
         else
        {return  1;}
@@ -72,7 +76,7 @@ public class CustomAdapter extends BaseAdapter {
             holder.tvname = (TextView) convertView.findViewById(R.id.name);
             holder.tvnumber = (TextView) convertView.findViewById(R.id.number);
             holder.tvlastcalldate= (TextView) convertView.findViewById(R.id.lastCallDate);
-            holder.tvelapsedDay= (TextView) convertView.findViewById(R.id.elapsedDays);
+           // holder.tvelapsedDay= (TextView) convertView.findViewById(R.id.elapsedDays);
 
 
 
@@ -89,8 +93,8 @@ public class CustomAdapter extends BaseAdapter {
 
             if (contactModelArrayList.get(position).getLastCallDate() != null) {
                 String date = DateFormat.getDateInstance().format(contactModelArrayList.get(position).getLastCallDate());
-                holder.tvlastcalldate.setText("Last Called: " + date);
-                holder.tvelapsedDay.setText("Last called " + String.valueOf(contactModelArrayList.get(position).getDayElapsed()) + " days ago");
+                holder.tvlastcalldate.setText("Last Called on " + date+" ("+ String.valueOf(contactModelArrayList.get(position).getDayElapsed()) +  " days ago)");
+               // holder.tvelapsedDay.setText("Last called " + String.valueOf(contactModelArrayList.get(position).getDayElapsed()) + " days ago");
             }
 
         }
