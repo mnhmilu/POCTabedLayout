@@ -40,7 +40,13 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return contactModelArrayList.size();
+      //  return  0;
+
+        if(contactModelArrayList!=null) {
+            return contactModelArrayList.size();
+        }
+        else
+       {return  1;}
     }
 
     @Override
@@ -76,20 +82,18 @@ public class CustomAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.tvname.setText(contactModelArrayList.get(position).getName());
-        holder.tvnumber.setText(contactModelArrayList.get(position).getNumber());
+        if(contactModelArrayList!=null) {
 
-        if(contactModelArrayList.get(position).getLastCallDate()!=null) {
+            holder.tvname.setText(contactModelArrayList.get(position).getName());
+            holder.tvnumber.setText(contactModelArrayList.get(position).getNumber());
 
-//            DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(this.context);
-          //  String date = dateFormat.format(contactModelArrayList.get(position).getLastCallDate());
+            if (contactModelArrayList.get(position).getLastCallDate() != null) {
+                String date = DateFormat.getDateInstance().format(contactModelArrayList.get(position).getLastCallDate());
+                holder.tvlastcalldate.setText("Last Called: " + date);
+                holder.tvelapsedDay.setText("Last called " + String.valueOf(contactModelArrayList.get(position).getDayElapsed()) + " days ago");
+            }
 
-            String date=   DateFormat.getDateInstance().format(contactModelArrayList.get(position).getLastCallDate());
-            holder.tvlastcalldate.setText("Last Called: "+date);
-            holder.tvelapsedDay.setText("Day Elapsed: "+String.valueOf(contactModelArrayList.get(position).getDayElapsed())+" days");
         }
-
-
         return convertView;
     }
 

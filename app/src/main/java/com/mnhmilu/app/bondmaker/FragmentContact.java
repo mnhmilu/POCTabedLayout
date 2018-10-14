@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.CallLog;
@@ -19,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.joda.time.DateMidnight;
@@ -49,7 +52,9 @@ public class FragmentContact extends Fragment {
     private ListView listView;
     private View mLayout;
     public static final String TAG = "MainActivity";
+    private  TextView progressView;
 
+    private ProgressBar progressBar;
 
 ///////////////////
 
@@ -98,29 +103,20 @@ public class FragmentContact extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        int permission_all =1;
-        String[] permissions={Manifest.permission.READ_CONTACTS,Manifest.permission.READ_CALL_LOG};
-
-        if(!hasPermission(this.getContext(),permissions))
-        {
-            ActivityCompat.requestPermissions(this.getActivity(),permissions,permission_all);
-        }
 
     }
 
 
-    public static boolean hasPermission(Context context, String... permissions)
-    {
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M && context!=null && permissions!=null ){
-            for(String permission:permissions)
-            {
+    public static boolean hasPermission(Context context, String... permissions) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
                 if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED
                         ) {
-                    return  false;
-                }
+                    return false;
                 }
             }
-            return  true;
+        }
+        return true;
     }
 
 
@@ -131,101 +127,166 @@ public class FragmentContact extends Fragment {
 
         rootView = inflater.inflate(R.layout.fragment_frag2, container, false);
         mLayout = rootView.findViewById(R.id.main_content);
-
+        progressView=(TextView) rootView.findViewById(R.id.processStatus);
         return rootView;
     }
-
 
 
     @Override
     public void onResume() {
 
         super.onResume();
+
+        new GetContactAsycTask().execute(progressView);
+
+        /*
         try {
             getContracts();
         } catch (ParseException e) {
             e.printStackTrace();
+        } */
+    }
+
+    class GetContactAsycTask extends AsyncTask<TextView, String, Boolean> {
+
+        int count;
+
+        @Override
+        protected void onPreExecute() {
+            customAdapter = new CustomAdapter(getContext(), contactModelArrayList);
+            progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
+            progressBar.setMax(15);
+            progressBar.setProgress(0);
+            progressBar.setVisibility(View.VISIBLE);
+            count = 0;
+           // progressView = (TextView) rootView.findViewById(R.id.processStatus);
+        }
+
+        @Override
+        protected Boolean doInBackground(TextView... textViews) {
+
+            Boolean returnValue = false;
+
+            if (textViews.length > 0) {
+                //getContracts();
+                progressView=textViews[0];
+                int permission_all = 1;
+                String[] permissions = {Manifest.permission.READ_CONTACTS, Manifest.permission.READ_CALL_LOG};
+                publishProgress("Checking Permission....");
+                if (!hasPermission(getContext(), permissions)) {
+                    ActivityCompat.requestPermissions(getActivity(), permissions, permission_all);
+                } else {
+
+                    contactModelArrayList = new ArrayList<>();
+                    //TODO: add check permission to avoid crash
+
+                    publishProgress("Getting your coantact data");
+                    Cursor phones = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
+                    while (phones.moveToNext()) {
+                        String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                        String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        String identity = phones.getString(phones.getColumnIndex(ContactsContract.Contacts._ID));
+
+                        ContactModel contactModel = new ContactModel();
+                        contactModel.setName(name);
+                        contactModel.setNumber(phoneNumber);
+                        contactModel.setIdentity(identity);
+                        contactModelArrayList.add(contactModel);
+
+                        publishProgress(name);
+
+                        //Log.d("name>>", name + "  " + phoneNumber);
+                    }
+                    phones.close();
+
+                    publishProgress("Calculating ,how long you didn't call some body");
+                    for (ContactModel item : contactModelArrayList) {
+                        /////
+                        Cursor cursorLastCall = getActivity().getContentResolver().query(CallLog.Calls.CONTENT_URI,
+                                new String[]{CallLog.Calls.DATE, CallLog.Calls.DURATION,
+                                        CallLog.Calls.NUMBER, CallLog.Calls._ID},
+                                CallLog.Calls.NUMBER + "=?",
+                                new String[]{item.getNumber()},
+                                CallLog.Calls.DATE + " DESC limit 1");
+
+
+                        if (cursorLastCall != null && cursorLastCall.getCount() > 0) {
+                            cursorLastCall.moveToLast();
+
+                            int date = cursorLastCall.getColumnIndex(CallLog.Calls.DATE);
+                            //  String testDate = cursorLastCall.getString(cursorLastCall.getColumnIndex(CallLog.Calls.DATE));
+
+                            String callDate = cursorLastCall.getString(date);
+                            Date callDayTime = new Date(Long.valueOf(callDate));
+
+                            DateFormat dt = android.text.format.DateFormat.getDateFormat(getContext());
+                            String formattedDate = dt.format(callDayTime);
+
+                            Log.d("Last Call date>>", item.getNumber() + "  " + dt.format(callDayTime) + "  Month: " + callDayTime.getMonth());
+                            item.setLastCallDate(callDayTime);
+
+
+                            long diff = new Date().getTime() - callDayTime.getTime();
+                            long seconds = diff / 1000;
+                            long minutes = seconds / 60;
+                            long hours = minutes / 60;
+                            long days = hours / 24;
+
+                            long l = days;
+                            int i = (int) l;
+
+                            item.setDayElapsed(i);
+
+                        }
+                        cursorLastCall = null;
+
+                    }
+                }
+                returnValue = true;
+                publishProgress("Processing finised!");
+            }
+            return returnValue;
+            //  return "Task done,All item are populated in the list";
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            // super.onProgressUpdate(values);
+            count++;
+            progressBar.setProgress(count);
+            progressView.setText(values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isDone) {
+
+            if (isDone) {
+
+                progressView.setText("Processing Done!");
+
+                Toast.makeText(getContext(), "Task Done ,List already populated !", Toast.LENGTH_LONG).show();
+                progressBar.setVisibility(View.GONE);
+
+                customAdapter = new CustomAdapter(getContext(), contactModelArrayList);
+                ListView listView = (ListView) rootView.findViewById(R.id.listView);
+                listView.setAdapter(customAdapter);
+
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                        ContactModel contact = (ContactModel) adapterView.getItemAtPosition(position);
+
+                        Toast.makeText(getContext(), "You Selected " + contact.getIdentity() + " as identity", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            {
+               // progressView.setText("Something wrong ! WEEEE");
+            }
         }
     }
 
-    public void getContracts() throws ParseException {
-        // if (PermissionUtil.verifyPermissions(grantResults)) {
-
-        contactModelArrayList = new ArrayList<>();
-        //TODO: add check permission to avoid crash
-        Cursor phones = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
-        while (phones.moveToNext()) {
-            String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-            String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            String identity = phones.getString(phones.getColumnIndex(ContactsContract.Contacts._ID));
-
-            ContactModel contactModel = new ContactModel();
-            contactModel.setName(name);
-            contactModel.setNumber(phoneNumber);
-            contactModel.setIdentity(identity);
-            contactModelArrayList.add(contactModel);
-            //Log.d("name>>", name + "  " + phoneNumber);
-        }
-        phones.close();
-
-
-        for (ContactModel item : contactModelArrayList) {
-            /////
-            Cursor cursorLastCall = getActivity().getContentResolver().query(CallLog.Calls.CONTENT_URI,
-                    new String[]{CallLog.Calls.DATE, CallLog.Calls.DURATION,
-                            CallLog.Calls.NUMBER, CallLog.Calls._ID},
-                    CallLog.Calls.NUMBER + "=?",
-                    new String[]{item.getNumber()},
-                    CallLog.Calls.DATE + " DESC limit 1");
-
-
-            if (cursorLastCall != null && cursorLastCall.getCount() > 0) {
-                cursorLastCall.moveToLast();
-
-                int date = cursorLastCall.getColumnIndex(CallLog.Calls.DATE);
-                //  String testDate = cursorLastCall.getString(cursorLastCall.getColumnIndex(CallLog.Calls.DATE));
-
-                String callDate = cursorLastCall.getString(date);
-                Date callDayTime = new Date(Long.valueOf(callDate));
-
-                DateFormat dt = android.text.format.DateFormat.getDateFormat(this.getContext());
-                String formattedDate = dt.format(callDayTime);
-
-                Log.d("Last Call date>>", item.getNumber() + "  " + dt.format(callDayTime) + "  Month: " + callDayTime.getMonth());
-                item.setLastCallDate(callDayTime);
-
-
-                long diff = new Date().getTime()-callDayTime.getTime();
-                long seconds = diff/1000;
-                long minutes = seconds / 60;
-                long hours = minutes / 60;
-                long days = hours / 24;
-
-                long l = days;
-                int i = (int) l;
-
-                item.setDayElapsed(i);
-
-
-            }
-            cursorLastCall = null;
-        }
-
-
-        customAdapter = new CustomAdapter(getContext(), contactModelArrayList);
-        ListView listView = (ListView) rootView.findViewById(R.id.listView);
-        listView.setAdapter(customAdapter);
-
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-
-                ContactModel contact = (ContactModel) adapterView.getItemAtPosition(position);
-
-                Toast.makeText(getContext(), "You Selected " + contact.getIdentity() + " as identity", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
 }
