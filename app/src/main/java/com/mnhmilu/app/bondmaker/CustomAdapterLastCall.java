@@ -8,20 +8,17 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.text.DateFormat;
-import java.text.FieldPosition;
-import java.text.ParsePosition;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by Parsania Hardik on 11-May-17.
  */
-public class CustomAdapter extends BaseAdapter {
+public class CustomAdapterLastCall extends BaseAdapter {
 
     private Context context;
     private ArrayList<ContactModel> contactModelArrayList;
 
-    public CustomAdapter(Context context, ArrayList<ContactModel> contactModelArrayList) {
+    public CustomAdapterLastCall(Context context, ArrayList<ContactModel> contactModelArrayList) {
 
         this.context = context;
         this.contactModelArrayList = contactModelArrayList;

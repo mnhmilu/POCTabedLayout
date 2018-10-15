@@ -2,6 +2,7 @@
     <string name="app_name">Bond Maker</string>
     <string name="tab_text_1">Home</string>
     <string name="tab_text_2">Contacts</string>
+    <string name="tab_text_3">Last Calls</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
 

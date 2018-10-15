@@ -1,7 +1,6 @@
 package com.mnhmilu.app.bondmaker;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -10,8 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.CallLog;
 import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -24,18 +21,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.joda.time.DateMidnight;
-import org.joda.time.DateTime;
-import org.joda.time.Days;
-
 import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 
 
 /**
@@ -43,19 +31,19 @@ import java.util.Iterator;
  * Activities that contain this fragment must implement the
  * <p>
  * to handle interaction events.
- * Use the {@link FragmentContact#newInstance} factory method to
+ * Use the {@link FragmentContactLastDayCallReport#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentContact extends Fragment {
+public class FragmentContactLastDayCallReport extends Fragment {
 
-    private CustomAdapter customAdapter;
+    private CustomAdapterLastCall customAdapterLastCall;
     private ArrayList<ContactModel> contactModelArrayList;
     private ArrayList<ContactModel> contactModelArrayListForRemove;
 
 
     private ListView listView;
     private View mLayout;
-    public static final String TAG = "MainActivity";
+    public static final String TAG = "FragmentContactLastDayCallReport";
     private  TextView progressView;
 
     private ProgressBar progressBar;
@@ -77,7 +65,7 @@ public class FragmentContact extends Fragment {
 
     String[] DESCRIPTIONS = {"Description 1", "Description 2"};
 
-    public FragmentContact() {
+    public FragmentContactLastDayCallReport() {
         // Required empty public constructor
     }
 
@@ -90,8 +78,8 @@ public class FragmentContact extends Fragment {
      * @return A new instance of fragment FragmentHome.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentContact newInstance(String param1, String param2) {
-        FragmentContact fragment = new FragmentContact();
+    public static FragmentContactLastDayCallReport newInstance(String param1, String param2) {
+        FragmentContactLastDayCallReport fragment = new FragmentContactLastDayCallReport();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -129,7 +117,7 @@ public class FragmentContact extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        rootView = inflater.inflate(R.layout.fragment_frag2, container, false);
+        rootView = inflater.inflate(R.layout.fragment_contactlastdayall, container, false);
         mLayout = rootView.findViewById(R.id.main_content);
         progressView=(TextView) rootView.findViewById(R.id.processStatus);
         return rootView;
@@ -271,9 +259,9 @@ public class FragmentContact extends Fragment {
                // Toast.makeText(getContext(), " !", Toast.LENGTH_LONG).show();
                 progressBar.setVisibility(View.GONE);
 
-                customAdapter = new CustomAdapter(getContext(), contactModelArrayList);
+                customAdapterLastCall = new CustomAdapterLastCall(getContext(), contactModelArrayList);
                 ListView listView = (ListView) rootView.findViewById(R.id.listView);
-                listView.setAdapter(customAdapter);
+                listView.setAdapter(customAdapterLastCall);
                 listView.setVisibility(View.VISIBLE);
 
 
