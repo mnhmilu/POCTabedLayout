@@ -37,17 +37,17 @@ public class CustomAdapterLastCall extends BaseAdapter {
 
     @Override
     public int getCount() {
-      //  return  0;
+        //  return  0;
 
-        if(contactModelArrayList!=null) {
+        if (contactModelArrayList != null) {
 
-            if(contactModelArrayList.size()==0)
+            if (contactModelArrayList.size() == 0)
                 return 1;
             else
                 return contactModelArrayList.size();
+        } else {
+            return 1;
         }
-        else
-       {return  1;}
     }
 
     @Override
@@ -72,9 +72,7 @@ public class CustomAdapterLastCall extends BaseAdapter {
 
             holder.tvname = (TextView) convertView.findViewById(R.id.name);
             holder.tvnumber = (TextView) convertView.findViewById(R.id.number);
-            holder.tvlastcalldate= (TextView) convertView.findViewById(R.id.lastCallDate);
-
-
+            holder.tvlastcalldate = (TextView) convertView.findViewById(R.id.lastCallDate);
 
             convertView.setTag(holder);
         } else {
@@ -82,23 +80,26 @@ public class CustomAdapterLastCall extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        if(contactModelArrayList!=null && contactModelArrayList.size()>0) {
+        if (contactModelArrayList != null) {
 
-            holder.tvname.setText(contactModelArrayList.get(position).getName());
-            holder.tvnumber.setText(contactModelArrayList.get(position).getNumber());
+            if (contactModelArrayList.size() > 0) {
 
-            if (contactModelArrayList.get(position).getLastCallDate() != null) {
-                String date = DateFormat.getDateInstance().format(contactModelArrayList.get(position).getLastCallDate());
-                holder.tvlastcalldate.setText("Last called on " + date+" ("+ String.valueOf(contactModelArrayList.get(position).getDayElapsed()) +  " days ago)");
+                holder.tvname.setText(contactModelArrayList.get(position).getName());
+                holder.tvnumber.setText(contactModelArrayList.get(position).getNumber());
+
+                if (contactModelArrayList.get(position).getLastCallDate() != null) {
+                    String date = DateFormat.getDateInstance().format(contactModelArrayList.get(position).getLastCallDate());
+                    holder.tvlastcalldate.setText("Last called on " + date + " (" + String.valueOf(contactModelArrayList.get(position).getDayElapsed()) + " days ago)");
+                }
+
             }
-
         }
         return convertView;
     }
 
     private class ViewHolder {
 
-        protected TextView tvname, tvnumber,tvlastcalldate,tvelapsedDay;
+        protected TextView tvname, tvnumber, tvlastcalldate, tvelapsedDay;
 
     }
 

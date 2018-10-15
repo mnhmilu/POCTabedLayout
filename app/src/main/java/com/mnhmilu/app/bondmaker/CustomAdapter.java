@@ -86,9 +86,10 @@ public class CustomAdapter extends BaseAdapter {
         }
 
         if(contactModelArrayList!=null) {
-
-            holder.tvname.setText(contactModelArrayList.get(position).getName());
-            holder.tvnumber.setText(contactModelArrayList.get(position).getNumber());
+            if(contactModelArrayList.size()>0) {
+                holder.tvname.setText(contactModelArrayList.get(position).getName());
+                holder.tvnumber.setText(contactModelArrayList.get(position).getNumber());
+            }
         }
         return convertView;
     }

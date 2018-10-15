@@ -97,7 +97,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
         }
 
 
-        new GetContactLastCallAsycTask().execute(progressView);
+
 
     }
 
@@ -161,7 +161,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
 
         super.onResume();
 
-
+        new GetContactLastCallAsycTask().execute(progressView);
     }
 
     class GetContactLastCallAsycTask extends AsyncTask<TextView, String, Boolean> {
