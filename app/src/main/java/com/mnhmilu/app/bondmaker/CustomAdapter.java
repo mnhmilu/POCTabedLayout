@@ -89,12 +89,6 @@ public class CustomAdapter extends BaseAdapter {
 
             holder.tvname.setText(contactModelArrayList.get(position).getName());
             holder.tvnumber.setText(contactModelArrayList.get(position).getNumber());
-
-            if (contactModelArrayList.get(position).getLastCallDate() != null) {
-                String date = DateFormat.getDateInstance().format(contactModelArrayList.get(position).getLastCallDate());
-                holder.tvlastcalldate.setText("Last called on " + date+" ("+ String.valueOf(contactModelArrayList.get(position).getDayElapsed()) +  " days ago)");
-            }
-
         }
         return convertView;
     }

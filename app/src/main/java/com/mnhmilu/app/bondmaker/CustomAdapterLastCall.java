@@ -82,7 +82,7 @@ public class CustomAdapterLastCall extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        if(contactModelArrayList!=null) {
+        if(contactModelArrayList!=null && contactModelArrayList.size()>0) {
 
             holder.tvname.setText(contactModelArrayList.get(position).getName());
             holder.tvnumber.setText(contactModelArrayList.get(position).getNumber());

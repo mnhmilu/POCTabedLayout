@@ -173,79 +173,32 @@ public class FragmentContact extends Fragment {
                 } else {
 
                     contactModelArrayList = new ArrayList<>();
-                    contactModelArrayListForRemove= new ArrayList<>();
+                    contactModelArrayListForRemove = new ArrayList<>();
 
 
                     //TODO: add check permission to avoid crash
 
                     publishProgress("Getting your coantact data");
-                    Cursor phones = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, "UPPER("+ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + ") ASC");
+                    Cursor phones = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, "UPPER(" + ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + ") ASC");
 
 
-                        while (phones.moveToNext()) {
-                            String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                            String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                            String identity = phones.getString(phones.getColumnIndex(ContactsContract.Contacts._ID));
+                    while (phones.moveToNext()) {
+                        String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                        String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        String identity = phones.getString(phones.getColumnIndex(ContactsContract.Contacts._ID));
 
-                            ContactModel contactModel = new ContactModel();
-                            contactModel.setName(name);
-                            contactModel.setNumber(phoneNumber);
-                            contactModel.setIdentity(identity);
-                            contactModelArrayList.add(contactModel);
-                            publishProgress("Getting your conatact information.......");
+                        ContactModel contactModel = new ContactModel();
+                        contactModel.setName(name);
+                        contactModel.setNumber(phoneNumber);
+                        contactModel.setIdentity(identity);
+                        contactModelArrayList.add(contactModel);
+                        publishProgress("Getting your conatact information.......");
 
-                            //Log.d("name>>", name + "  " + phoneNumber);
-                        }
+                        //Log.d("name>>", name + "  " + phoneNumber);
+                    }
 
 
                     phones.close();
-                    for (ContactModel item : contactModelArrayList) {
-                        /////
-                        Cursor cursorLastCall = getActivity().getContentResolver().query(CallLog.Calls.CONTENT_URI,
-                                new String[]{CallLog.Calls.DATE, CallLog.Calls.DURATION,
-                                        CallLog.Calls.NUMBER, CallLog.Calls._ID},
-                                CallLog.Calls.NUMBER + "=?",
-                                new String[]{item.getNumber()},
-                                CallLog.Calls.DATE + " DESC limit 1");
-
-
-                        if (cursorLastCall != null && cursorLastCall.getCount() > 0) {
-                            cursorLastCall.moveToLast();
-
-                            int date = cursorLastCall.getColumnIndex(CallLog.Calls.DATE);
-                            //  String testDate = cursorLastCall.getString(cursorLastCall.getColumnIndex(CallLog.Calls.DATE));
-
-                            String callDate = cursorLastCall.getString(date);
-                            Date callDayTime = new Date(Long.valueOf(callDate));
-
-                            DateFormat dt = android.text.format.DateFormat.getDateFormat(getContext());
-                            String formattedDate = dt.format(callDayTime);
-
-                            Log.d("Last Call date>>", item.getNumber() + "  " + dt.format(callDayTime) + "  Month: " + callDayTime.getMonth());
-                            item.setLastCallDate(callDayTime);
-
-
-                            long diff = new Date().getTime() - callDayTime.getTime();
-                            long seconds = diff / 1000;
-                            long minutes = seconds / 60;
-                            long hours = minutes / 60;
-                            long days = hours / 24;
-
-                            long l = days;
-                            int i = (int) l;
-
-                            item.setDayElapsed(i);
-
-                        }else
-                        {
-                            contactModelArrayListForRemove.add(item);
-                        }
-
-                        cursorLastCall.close();
-                        //cursorLastCall = null;
-                        publishProgress("Analyzing your call history..........");
-                    }
-                    contactModelArrayList.removeAll(contactModelArrayListForRemove);
                 }
                 returnValue = true;
             }

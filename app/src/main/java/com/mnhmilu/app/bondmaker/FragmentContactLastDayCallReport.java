@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -44,7 +45,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
     private ListView listView;
     private View mLayout;
     public static final String TAG = "FragmentContactLastDayCallReport";
-    private  TextView progressView;
+    private TextView progressView;
 
     private ProgressBar progressBar;
 
@@ -96,6 +97,8 @@ public class FragmentContactLastDayCallReport extends Fragment {
         }
 
 
+        new GetContactLastCallAsycTask().execute(progressView);
+
     }
 
 
@@ -118,8 +121,35 @@ public class FragmentContactLastDayCallReport extends Fragment {
         // Inflate the layout for this fragment
 
         rootView = inflater.inflate(R.layout.fragment_contactlastdayall, container, false);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
+        progressBar.setMax(15);
+        progressBar.setProgress(0);
+        progressBar.setVisibility(View.VISIBLE);
         mLayout = rootView.findViewById(R.id.main_content);
-        progressView=(TextView) rootView.findViewById(R.id.processStatus);
+        progressView = (TextView) rootView.findViewById(R.id.processStatus);
+
+        customAdapterLastCall = new CustomAdapterLastCall(getContext(), contactModelArrayList) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                if (contactModelArrayList.size() > 0 && contactModelArrayList != null) {
+                    if (contactModelArrayList.get(position).getDayElapsed() >= 0 && contactModelArrayList.get(position).getDayElapsed() <= 10) {
+                        view.setBackgroundColor(Color.GREEN);
+                    } else if (contactModelArrayList.get(position).getDayElapsed() >= 11 && contactModelArrayList.get(position).getDayElapsed() <= 20) {
+                        view.setBackgroundColor(Color.YELLOW);
+                    } else if (contactModelArrayList.get(position).getDayElapsed() >= 21) {
+                        view.setBackgroundColor(Color.RED);
+                    }
+                }
+                return view;
+            }
+        };
+
+
+        ListView listView = (ListView) rootView.findViewById(R.id.listView);
+        listView.setAdapter(customAdapterLastCall);
+        listView.setVisibility(View.VISIBLE);
+        progressView.setText("");
         return rootView;
     }
 
@@ -129,20 +159,16 @@ public class FragmentContactLastDayCallReport extends Fragment {
 
         super.onResume();
 
-        new GetContactAsycTask().execute(progressView);
 
     }
 
-    class GetContactAsycTask extends AsyncTask<TextView, String, Boolean> {
+    class GetContactLastCallAsycTask extends AsyncTask<TextView, String, Boolean> {
 
         int count;
 
         @Override
         protected void onPreExecute() {
-            progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
-            progressBar.setMax(15);
-            progressBar.setProgress(0);
-            progressBar.setVisibility(View.VISIBLE);
+
             count = 0;
         }
 
@@ -152,7 +178,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
             Boolean returnValue = false;
 
             if (textViews.length > 0) {
-                progressView=textViews[0];
+                progressView = textViews[0];
                 int permission_all = 1;
                 String[] permissions = {Manifest.permission.READ_CONTACTS, Manifest.permission.READ_CALL_LOG};
                 publishProgress("Checking Permission....");
@@ -161,29 +187,29 @@ public class FragmentContactLastDayCallReport extends Fragment {
                 } else {
 
                     contactModelArrayList = new ArrayList<>();
-                    contactModelArrayListForRemove= new ArrayList<>();
+                    contactModelArrayListForRemove = new ArrayList<>();
 
 
                     //TODO: add check permission to avoid crash
 
                     publishProgress("Getting your coantact data");
-                    Cursor phones = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, "UPPER("+ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + ") ASC");
+                    Cursor phones = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, "UPPER(" + ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + ") ASC");
 
 
-                        while (phones.moveToNext()) {
-                            String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                            String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                            String identity = phones.getString(phones.getColumnIndex(ContactsContract.Contacts._ID));
+                    while (phones.moveToNext()) {
+                        String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                        String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        String identity = phones.getString(phones.getColumnIndex(ContactsContract.Contacts._ID));
 
-                            ContactModel contactModel = new ContactModel();
-                            contactModel.setName(name);
-                            contactModel.setNumber(phoneNumber);
-                            contactModel.setIdentity(identity);
-                            contactModelArrayList.add(contactModel);
-                            publishProgress("Getting your conatact information.......");
+                        ContactModel contactModel = new ContactModel();
+                        contactModel.setName(name);
+                        contactModel.setNumber(phoneNumber);
+                        contactModel.setIdentity(identity);
+                        contactModelArrayList.add(contactModel);
+                        publishProgress("Getting your conatact information.......");
 
-                            //Log.d("name>>", name + "  " + phoneNumber);
-                        }
+                        //Log.d("name>>", name + "  " + phoneNumber);
+                    }
 
 
                     phones.close();
@@ -224,8 +250,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
 
                             item.setDayElapsed(i);
 
-                        }else
-                        {
+                        } else {
                             contactModelArrayListForRemove.add(item);
                         }
 
@@ -256,10 +281,25 @@ public class FragmentContactLastDayCallReport extends Fragment {
 
                 progressView.setText("Processing Done!");
 
-               // Toast.makeText(getContext(), " !", Toast.LENGTH_LONG).show();
+                // Toast.makeText(getContext(), " !", Toast.LENGTH_LONG).show();
                 progressBar.setVisibility(View.GONE);
 
-                customAdapterLastCall = new CustomAdapterLastCall(getContext(), contactModelArrayList);
+                customAdapterLastCall = new CustomAdapterLastCall(getContext(), contactModelArrayList) {
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        View view = super.getView(position, convertView, parent);
+                        if (contactModelArrayList.size() > 0 && contactModelArrayList != null) {
+                            if (contactModelArrayList.get(position).getDayElapsed() >= 0 && contactModelArrayList.get(position).getDayElapsed() <= 10) {
+                                view.setBackgroundColor(Color.GREEN);
+                            } else if (contactModelArrayList.get(position).getDayElapsed() >= 11 && contactModelArrayList.get(position).getDayElapsed() <= 20) {
+                                view.setBackgroundColor(Color.YELLOW);
+                            } else if (contactModelArrayList.get(position).getDayElapsed() >= 21) {
+                                view.setBackgroundColor(Color.RED);
+                            }
+                        }
+                        return view;
+                    }
+                };
                 ListView listView = (ListView) rootView.findViewById(R.id.listView);
                 listView.setAdapter(customAdapterLastCall);
                 listView.setVisibility(View.VISIBLE);
