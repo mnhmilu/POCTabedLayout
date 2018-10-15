@@ -290,13 +290,16 @@ public class FragmentContactLastDayCallReport extends Fragment {
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent) {
                         View view = super.getView(position, convertView, parent);
-                        if (contactModelArrayList.size() > 0 && contactModelArrayList != null) {
-                            if (contactModelArrayList.get(position).getDayElapsed() >= 0 && contactModelArrayList.get(position).getDayElapsed() <= 10) {
-                                view.setBackgroundColor(Color.GREEN);
-                            } else if (contactModelArrayList.get(position).getDayElapsed() >= 11 && contactModelArrayList.get(position).getDayElapsed() <= 20) {
-                                view.setBackgroundColor(Color.YELLOW);
-                            } else if (contactModelArrayList.get(position).getDayElapsed() >= 21) {
-                                view.setBackgroundColor(Color.RED);
+
+                        if(contactModelArrayList != null) {
+                            if (contactModelArrayList.size() > 0 ) {
+                                if (contactModelArrayList.get(position).getDayElapsed() >= 0 && contactModelArrayList.get(position).getDayElapsed() <= 10) {
+                                    view.setBackgroundColor(Color.GREEN);
+                                } else if (contactModelArrayList.get(position).getDayElapsed() >= 11 && contactModelArrayList.get(position).getDayElapsed() <= 20) {
+                                    view.setBackgroundColor(Color.YELLOW);
+                                } else if (contactModelArrayList.get(position).getDayElapsed() >= 21) {
+                                    view.setBackgroundColor(Color.RED);
+                                }
                             }
                         }
                         return view;

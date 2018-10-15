@@ -1,7 +1,6 @@
 package com.mnhmilu.app.bondmaker;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -10,11 +9,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.CallLog;
 import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,18 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.joda.time.DateMidnight;
-import org.joda.time.DateTime;
-import org.joda.time.Days;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 
 
 /**
@@ -50,7 +35,7 @@ public class FragmentContact extends Fragment {
 
     private CustomAdapter customAdapter;
     private ArrayList<ContactModel> contactModelArrayList;
-    private ArrayList<ContactModel> contactModelArrayListForRemove;
+    private ArrayList<ContactModel> contactModelArrayNeverCalled;
 
 
     private ListView listView;
@@ -173,7 +158,7 @@ public class FragmentContact extends Fragment {
                 } else {
 
                     contactModelArrayList = new ArrayList<>();
-                    contactModelArrayListForRemove = new ArrayList<>();
+                    contactModelArrayNeverCalled = new ArrayList<>();
 
 
                     //TODO: add check permission to avoid crash
@@ -199,6 +184,30 @@ public class FragmentContact extends Fragment {
 
 
                     phones.close();
+                    for (ContactModel item : contactModelArrayList) {
+                        /////
+                        Cursor cursorLastCall = getActivity().getContentResolver().query(CallLog.Calls.CONTENT_URI,
+                                new String[]{CallLog.Calls.DATE, CallLog.Calls.DURATION,
+                                        CallLog.Calls.NUMBER, CallLog.Calls._ID},
+                                CallLog.Calls.NUMBER + "=?",
+                                new String[]{item.getNumber()},
+                                CallLog.Calls.DATE + " DESC limit 1");
+
+
+                        if (cursorLastCall != null && cursorLastCall.getCount() == 0) {
+                            contactModelArrayNeverCalled.add(item);
+                        }
+
+
+                        cursorLastCall.close();
+                        //cursorLastCall = null;
+                        publishProgress("Analyzing your call history..........");
+                    }
+
+                    //contactModelArrayNeverCalled.removeAll(contactModelArrayList);
+                    // getting only never call item
+                    contactModelArrayList =contactModelArrayNeverCalled;
+
                 }
                 returnValue = true;
             }

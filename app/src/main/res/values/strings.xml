@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Bond Maker</string>
     <string name="tab_text_1">Home</string>
-    <string name="tab_text_2">Contacts</string>
-    <string name="tab_text_3">Dashboard</string>
+    <string name="tab_text_2">NeverDailed</string>
+    <string name="tab_text_3">LastDailed</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
 

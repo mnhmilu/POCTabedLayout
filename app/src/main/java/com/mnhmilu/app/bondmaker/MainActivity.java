@@ -177,6 +177,9 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     view = new FragmentContactLastDayCallReport();
                     break;
+                case 1:
+                    view = new FragmentContact();
+                    break;
             }
 
            return view;
@@ -185,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 1;
+            return 2;
         }
     }
 
