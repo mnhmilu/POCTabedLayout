@@ -310,26 +310,19 @@ public class FragmentContactLastDayCallReport extends Fragment {
         if(contactModelArrayList != null) {
             if (contactModelArrayList.size() > 0 ) {
 
-
-                /*
-                if (contactModelArrayList.get(position).getDayElapsed() >= 0 && contactModelArrayList.get(position).getDayElapsed() <= 10) {
-                    view.setBackgroundColor(Color.GREEN);
-                } else if (contactModelArrayList.get(position).getDayElapsed() >= 11 && contactModelArrayList.get(position).getDayElapsed() <= 20) {
-                    view.setBackgroundColor(Color.YELLOW);
-                } else if (contactModelArrayList.get(position).getDayElapsed() >= 21) {
-                    view.setBackgroundColor(Color.RED);
-                }*/
                 SharedPreferences mysettings=this.getActivity().getSharedPreferences(PREFERENCES_FILE_NAME, 0);
 
-                int firstLevel = mysettings.getInt(getString(R.string.alarm_first_level),10);
-                int secondLevel = mysettings.getInt(getString(R.string.alarm_second_level),20);
-                int thirdLevel = mysettings.getInt(getString(R.string.alarm_third_level),30);
+                int days = mysettings.getInt(getString(R.string.alarm_first_level),10);
+                ///int secondLevel =firstLevel+ mysettings.getInt(getString(R.string.alarm_second_level),10);
+                int secondLevel=days+days+1;
 
-                if (contactModelArrayList.get(position).getDayElapsed() >= 0 && contactModelArrayList.get(position).getDayElapsed() <= firstLevel) {
+
+
+                if (contactModelArrayList.get(position).getDayElapsed() <= days) {
                     view.setBackgroundColor(Color.GREEN);
-                } else if (contactModelArrayList.get(position).getDayElapsed() >= firstLevel+1 && contactModelArrayList.get(position).getDayElapsed() <= secondLevel) {
+                } else if (contactModelArrayList.get(position).getDayElapsed() >= (days+1) && contactModelArrayList.get(position).getDayElapsed() < secondLevel) {
                     view.setBackgroundColor(Color.YELLOW);
-                } else if (contactModelArrayList.get(position).getDayElapsed() >= secondLevel+1) {
+                } else if (contactModelArrayList.get(position).getDayElapsed() >= secondLevel) {
                     view.setBackgroundColor(Color.RED);
                 }
 

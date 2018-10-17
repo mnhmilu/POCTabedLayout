@@ -13,7 +13,7 @@ import android.widget.EditText;
 
 public class AlertLevelSettingsActivity extends AppCompatActivity {
 
-    private EditText editText1,editText2,editText3;
+    private EditText editText1;
     Button btnSubmit;
     public static final String PREFERENCES_FILE_NAME = "bondmakerprefrerence";
 
@@ -28,8 +28,6 @@ public class AlertLevelSettingsActivity extends AppCompatActivity {
 
 
         editText1 =(EditText) findViewById(R.id.tbxAlert1);
-        editText2 =(EditText) findViewById(R.id.tbxAlert2);
-        editText3 =(EditText) findViewById(R.id.tbxAlert3);
 
         btnSubmit = (Button) findViewById(R.id.btnSubmitAlertLevel);
 
@@ -52,8 +50,8 @@ public class AlertLevelSettingsActivity extends AppCompatActivity {
 
         SharedPreferences.Editor myeditor = settingsfile.edit();
         myeditor.putInt(getString(R.string.alarm_first_level),Integer.valueOf(editText1.getText().toString()));
-        myeditor.putInt(getString(R.string.alarm_second_level),Integer.valueOf(editText2.getText().toString()));
-        myeditor.putInt(getString(R.string.alarm_third_level),Integer.valueOf(editText3.getText().toString()));
+      //  myeditor.putInt(getString(R.string.alarm_second_level),Integer.valueOf(editText2.getText().toString()));
+
         myeditor.apply();
         super.onBackPressed();
         this.finish();
@@ -65,12 +63,11 @@ public class AlertLevelSettingsActivity extends AppCompatActivity {
         SharedPreferences mysettings= getSharedPreferences(PREFERENCES_FILE_NAME, 0);
 
         int firstLevel = mysettings.getInt(getString(R.string.alarm_first_level),10);
-        int secondLevel = mysettings.getInt(getString(R.string.alarm_second_level),20);
-        int thirdLevel = mysettings.getInt(getString(R.string.alarm_third_level),30);
+       // int secondLevel = mysettings.getInt(getString(R.string.alarm_second_level),10);
 
         editText1.setText(String.valueOf(firstLevel));
-        editText2.setText(String.valueOf(secondLevel));
-        editText3.setText(String.valueOf(thirdLevel));
+      //  editText2.setText(String.valueOf(secondLevel));
+
     }
 
 
