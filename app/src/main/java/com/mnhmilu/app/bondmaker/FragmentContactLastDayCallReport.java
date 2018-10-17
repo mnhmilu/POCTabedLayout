@@ -2,6 +2,7 @@ package com.mnhmilu.app.bondmaker;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -48,6 +49,8 @@ public class FragmentContactLastDayCallReport extends Fragment {
     private TextView progressView;
 
     private ProgressBar progressBar;
+
+    public static final String PREFERENCES_FILE_NAME = "bondmakerprefrerence";
 
 ///////////////////
 
@@ -132,17 +135,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
-                if(contactModelArrayList!=null) {
-                    if (contactModelArrayList.size() > 0) {
-                        if (contactModelArrayList.get(position).getDayElapsed() >= 0 && contactModelArrayList.get(position).getDayElapsed() <= 10) {
-                            view.setBackgroundColor(Color.GREEN);
-                        } else if (contactModelArrayList.get(position).getDayElapsed() >= 11 && contactModelArrayList.get(position).getDayElapsed() <= 20) {
-                            view.setBackgroundColor(Color.YELLOW);
-                        } else if (contactModelArrayList.get(position).getDayElapsed() >= 21) {
-                            view.setBackgroundColor(Color.RED);
-                        }
-                    }
-                }
+                setRowColor(position, view);
                 return view;
             }
         };
@@ -290,18 +283,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent) {
                         View view = super.getView(position, convertView, parent);
-
-                        if(contactModelArrayList != null) {
-                            if (contactModelArrayList.size() > 0 ) {
-                                if (contactModelArrayList.get(position).getDayElapsed() >= 0 && contactModelArrayList.get(position).getDayElapsed() <= 10) {
-                                    view.setBackgroundColor(Color.GREEN);
-                                } else if (contactModelArrayList.get(position).getDayElapsed() >= 11 && contactModelArrayList.get(position).getDayElapsed() <= 20) {
-                                    view.setBackgroundColor(Color.YELLOW);
-                                } else if (contactModelArrayList.get(position).getDayElapsed() >= 21) {
-                                    view.setBackgroundColor(Color.RED);
-                                }
-                            }
-                        }
+                        setRowColor(position, view);
                         return view;
                     }
                 };
@@ -323,6 +305,40 @@ public class FragmentContactLastDayCallReport extends Fragment {
 
         }
     }
+
+    private void setRowColor(int position, View view) {
+        if(contactModelArrayList != null) {
+            if (contactModelArrayList.size() > 0 ) {
+
+
+                /*
+                if (contactModelArrayList.get(position).getDayElapsed() >= 0 && contactModelArrayList.get(position).getDayElapsed() <= 10) {
+                    view.setBackgroundColor(Color.GREEN);
+                } else if (contactModelArrayList.get(position).getDayElapsed() >= 11 && contactModelArrayList.get(position).getDayElapsed() <= 20) {
+                    view.setBackgroundColor(Color.YELLOW);
+                } else if (contactModelArrayList.get(position).getDayElapsed() >= 21) {
+                    view.setBackgroundColor(Color.RED);
+                }*/
+                SharedPreferences mysettings=this.getActivity().getSharedPreferences(PREFERENCES_FILE_NAME, 0);
+
+                int firstLevel = mysettings.getInt(getString(R.string.alarm_first_level),10);
+                int secondLevel = mysettings.getInt(getString(R.string.alarm_second_level),20);
+                int thirdLevel = mysettings.getInt(getString(R.string.alarm_third_level),30);
+
+                if (contactModelArrayList.get(position).getDayElapsed() >= 0 && contactModelArrayList.get(position).getDayElapsed() <= firstLevel) {
+                    view.setBackgroundColor(Color.GREEN);
+                } else if (contactModelArrayList.get(position).getDayElapsed() >= firstLevel+1 && contactModelArrayList.get(position).getDayElapsed() <= secondLevel) {
+                    view.setBackgroundColor(Color.YELLOW);
+                } else if (contactModelArrayList.get(position).getDayElapsed() >= secondLevel+1) {
+                    view.setBackgroundColor(Color.RED);
+                }
+
+            }
+        }
+    }
+
+
+
 
 
 }

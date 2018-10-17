@@ -101,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
 
-            Intent in = new Intent(this,TagIndexActivity.class);
+           // Intent in = new Intent(this,TagIndexActivity.class);
+            Intent in = new Intent(this,AlertLevelSettingsActivity.class);
             in.putExtra("some","some data");
             startActivity(in);
 
