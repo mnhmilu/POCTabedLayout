@@ -2,6 +2,7 @@ package com.mnhmilu.app.bondmaker;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -297,6 +298,10 @@ public class FragmentContactLastDayCallReport extends Fragment {
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
                         ContactModel contact = (ContactModel) adapterView.getItemAtPosition(position);
+
+                        Intent in = new Intent(getActivity(),MakeCallActivity.class);
+                        in.putExtra("callerNumber",contact.getNumber());
+                        startActivity(in);
 
                         Toast.makeText(getContext(), "You Selected " + contact.getIdentity() + " as identity", Toast.LENGTH_SHORT).show();
                     }
