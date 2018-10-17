@@ -12,8 +12,9 @@ import android.widget.TextView;
 
 public class MakeCallActivity extends AppCompatActivity {
 
-    TextView textView;
+    TextView textViewNumber,textViewName;
     Button btnSubmit;
+
 
 
     @Override
@@ -21,8 +22,13 @@ public class MakeCallActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_call);
         btnSubmit = (Button) findViewById(R.id.btnCallNow);
-        textView = (TextView) findViewById(R.id.textViewCallNumber);
-        textView.setText(getIntent().getStringExtra("callerNumber"));
+        textViewNumber = (TextView) findViewById(R.id.textViewCallNumber);
+        textViewNumber.setText(getIntent().getStringExtra("callerNumber"));
+
+        textViewName = (TextView) findViewById(R.id.textViewCallName);
+        textViewName.setText(getIntent().getStringExtra("callerName"));
+
+
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -219,7 +219,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
                                 CallLog.Calls.DATE + " DESC limit 1");
 
 
-                        if (cursorLastCall != null && cursorLastCall.getCount() > 0) {
+                        if (cursorLastCall != null && cursorLastCall.getCount() >0) {
                             cursorLastCall.moveToLast();
 
                             int date = cursorLastCall.getColumnIndex(CallLog.Calls.DATE);
@@ -301,6 +301,8 @@ public class FragmentContactLastDayCallReport extends Fragment {
 
                         Intent in = new Intent(getActivity(),MakeCallActivity.class);
                         in.putExtra("callerNumber",contact.getNumber());
+                        in.putExtra("callerName",contact.getName());
+
                         startActivity(in);
 
                         Toast.makeText(getContext(), "You Selected " + contact.getIdentity() + " as identity", Toast.LENGTH_SHORT).show();
@@ -323,7 +325,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
 
 
 
-                if (contactModelArrayList.get(position).getDayElapsed() <= days) {
+                if (contactModelArrayList.get(position).getDayElapsed() >=0 && contactModelArrayList.get(position).getDayElapsed() <= days) {
                     view.setBackgroundColor(Color.GREEN);
                 } else if (contactModelArrayList.get(position).getDayElapsed() >= (days+1) && contactModelArrayList.get(position).getDayElapsed() < secondLevel) {
                     view.setBackgroundColor(Color.YELLOW);
