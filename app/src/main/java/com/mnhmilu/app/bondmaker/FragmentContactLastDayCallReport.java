@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -43,7 +44,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
     private ArrayList<ContactModel> contactModelArrayList;
     private ArrayList<ContactModel> contactModelArrayListForRemove;
 
-
+    private  Button btnSyncLastCall;
     private ListView listView;
     private View mLayout;
     public static final String TAG = "FragmentContactLastDayCallReport";
@@ -132,6 +133,17 @@ public class FragmentContactLastDayCallReport extends Fragment {
         mLayout = rootView.findViewById(R.id.main_content);
         progressView = (TextView) rootView.findViewById(R.id.processStatus);
 
+        btnSyncLastCall =(Button) rootView.findViewById(R.id.buttonSyncLastCall);
+
+        btnSyncLastCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               // callNow(getIntent().getStringExtra("callerNumber"));
+                new GetContactLastCallAsycTask().execute(progressView);
+            }
+        });
+
+
         customAdapterLastCall = new CustomAdapterLastCall(getContext(), contactModelArrayList) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -146,6 +158,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
         listView.setAdapter(customAdapterLastCall);
         listView.setVisibility(View.VISIBLE);
         progressView.setText("");
+        new GetContactLastCallAsycTask().execute(progressView);
         return rootView;
     }
 
@@ -154,8 +167,8 @@ public class FragmentContactLastDayCallReport extends Fragment {
     public void onResume() {
 
         super.onResume();
+        customAdapterLastCall.notifyDataSetChanged();
 
-        new GetContactLastCallAsycTask().execute(progressView);
     }
 
     class GetContactLastCallAsycTask extends AsyncTask<TextView, String, Boolean> {
