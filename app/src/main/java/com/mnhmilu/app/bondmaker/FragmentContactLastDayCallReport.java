@@ -323,14 +323,27 @@ public class FragmentContactLastDayCallReport extends Fragment {
                 ///int secondLevel =firstLevel+ mysettings.getInt(getString(R.string.alarm_second_level),10);
                 int secondLevel=days+days+1;
 
+                TextView textViewDays=(TextView) view.findViewById(R.id.textViewDays);
+               // textViewDays.setBackgroundColor(Color.YELLOW);
+
+                TextView textViewDaysFixed=(TextView) view.findViewById(R.id.textViewFixedDays);
+              //  textViewDaysFixed.setBackgroundColor(Color.YELLOW);
+
 
 
                 if (contactModelArrayList.get(position).getDayElapsed() >=0 && contactModelArrayList.get(position).getDayElapsed() <= days) {
-                    view.setBackgroundColor(Color.GREEN);
+                   // view.setBackgroundColor(Color.GREEN);
+                    textViewDays.setBackgroundColor(Color.GREEN);
+                    textViewDaysFixed.setBackgroundColor(Color.GREEN);
+
                 } else if (contactModelArrayList.get(position).getDayElapsed() >= (days+1) && contactModelArrayList.get(position).getDayElapsed() < secondLevel) {
-                    view.setBackgroundColor(Color.YELLOW);
+                  //  view.setBackgroundColor(Color.YELLOW);
+                    textViewDays.setBackgroundColor(Color.YELLOW);
+                    textViewDaysFixed.setBackgroundColor(Color.YELLOW);
                 } else if (contactModelArrayList.get(position).getDayElapsed() >= secondLevel) {
-                    view.setBackgroundColor(Color.RED);
+                  //  view.setBackgroundColor(Color.RED);
+                    textViewDays.setBackgroundColor(Color.RED);
+                    textViewDaysFixed.setBackgroundColor(Color.RED);
                 }
 
             }
