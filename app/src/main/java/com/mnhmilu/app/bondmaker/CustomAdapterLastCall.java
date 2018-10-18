@@ -68,11 +68,12 @@ public class CustomAdapterLastCall extends BaseAdapter {
             holder = new ViewHolder();
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.lv_item, null, true);
+            convertView = inflater.inflate(R.layout.lv_item_lastcallhistory, null, true);
 
             holder.tvname = (TextView) convertView.findViewById(R.id.name);
             holder.tvnumber = (TextView) convertView.findViewById(R.id.number);
             holder.tvlastcalldate = (TextView) convertView.findViewById(R.id.lastCallDate);
+            holder.tvelapsedDay=(TextView) convertView.findViewById(R.id.textViewDays);
 
             convertView.setTag(holder);
         } else {
@@ -88,8 +89,9 @@ public class CustomAdapterLastCall extends BaseAdapter {
                 holder.tvnumber.setText(contactModelArrayList.get(position).getNumber());
 
                 if (contactModelArrayList.get(position).getLastCallDate() != null) {
-                    String date = DateFormat.getDateInstance().format(contactModelArrayList.get(position).getLastCallDate());
-                    holder.tvlastcalldate.setText("Last called on " + date + " (" + String.valueOf(contactModelArrayList.get(position).getDayElapsed()) + " days ago)");
+                    String date = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(contactModelArrayList.get(position).getLastCallDate());
+                    holder.tvlastcalldate.setText("Last called: "+date);
+                    holder.tvelapsedDay.setText(String.valueOf(contactModelArrayList.get(position).getDayElapsed()));
                 }
 
             }
