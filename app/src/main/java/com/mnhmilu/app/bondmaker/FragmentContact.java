@@ -135,10 +135,12 @@ public class FragmentContact extends Fragment {
             }
         });
 
+        btnSyncLastCall.setVisibility(View.INVISIBLE);
+
         customAdapter = new CustomAdapter(getContext(), contactModelArrayList);
         ListView listView = (ListView) rootView.findViewById(R.id.listView);
         listView.setAdapter(customAdapter);
-        listView.setVisibility(View.VISIBLE);
+        listView.setVisibility(View.INVISIBLE);
 
         new GetContactAsycTask().execute(progressView);
         return rootView;
@@ -275,6 +277,7 @@ public class FragmentContact extends Fragment {
                       //  Toast.makeText(getContext(), "You Selected " + contact.getIdentity() + " as identity", Toast.LENGTH_SHORT).show();
                     }
                 });
+                btnSyncLastCall.setVisibility(View.VISIBLE);
             }
 
         }

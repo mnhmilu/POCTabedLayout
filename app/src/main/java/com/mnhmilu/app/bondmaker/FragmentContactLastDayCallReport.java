@@ -143,6 +143,8 @@ public class FragmentContactLastDayCallReport extends Fragment {
             }
         });
 
+        btnSyncLastCall.setVisibility(View.INVISIBLE);
+
 
         customAdapterLastCall = new CustomAdapterLastCall(getContext(), contactModelArrayList) {
             @Override
@@ -156,7 +158,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
 
         ListView listView = (ListView) rootView.findViewById(R.id.listView);
         listView.setAdapter(customAdapterLastCall);
-        listView.setVisibility(View.VISIBLE);
+        listView.setVisibility(View.INVISIBLE);
         progressView.setText("");
         new GetContactLastCallAsycTask().execute(progressView);
         return rootView;
@@ -304,7 +306,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
                 ListView listView = (ListView) rootView.findViewById(R.id.listView);
                 listView.setAdapter(customAdapterLastCall);
                 listView.setVisibility(View.VISIBLE);
-
+                btnSyncLastCall.setVisibility(View.VISIBLE);
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
