@@ -214,7 +214,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
 
                         ContactModel contactModel = new ContactModel();
                         contactModel.setName(name);
-                        contactModel.setNumber(phoneNumber);
+                        contactModel.setNumber(phoneNumber.replace(" ","").replace("-",""));
                         contactModel.setIdentity(identity);
                         contactModelArrayList.add(contactModel);
                         publishProgress("Getting your conatact information.......");
