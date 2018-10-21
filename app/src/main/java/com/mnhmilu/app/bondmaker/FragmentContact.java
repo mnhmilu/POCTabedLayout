@@ -2,6 +2,7 @@ package com.mnhmilu.app.bondmaker;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -42,7 +44,7 @@ public class FragmentContact extends Fragment {
     private View mLayout;
     public static final String TAG = "MainActivity";
     private  TextView progressView;
-
+    private  Button btnSyncLastCall;
     private ProgressBar progressBar;
 
 ///////////////////
@@ -117,6 +119,28 @@ public class FragmentContact extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_frag2, container, false);
         mLayout = rootView.findViewById(R.id.main_content);
         progressView=(TextView) rootView.findViewById(R.id.processStatus);
+
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
+        progressBar.setMax(15);
+        progressBar.setProgress(0);
+        progressBar.setVisibility(View.VISIBLE);
+
+        btnSyncLastCall =(Button) rootView.findViewById(R.id.buttonSyncContact);
+
+        btnSyncLastCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // callNow(getIntent().getStringExtra("callerNumber"));
+                new GetContactAsycTask().execute(progressView);
+            }
+        });
+
+        customAdapter = new CustomAdapter(getContext(), contactModelArrayList);
+        ListView listView = (ListView) rootView.findViewById(R.id.listView);
+        listView.setAdapter(customAdapter);
+        listView.setVisibility(View.VISIBLE);
+
+        new GetContactAsycTask().execute(progressView);
         return rootView;
     }
 
@@ -126,7 +150,9 @@ public class FragmentContact extends Fragment {
 
         super.onResume();
 
-        new GetContactAsycTask().execute(progressView);
+        customAdapter.notifyDataSetChanged();
+
+
 
     }
 
@@ -136,10 +162,7 @@ public class FragmentContact extends Fragment {
 
         @Override
         protected void onPreExecute() {
-            progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
-            progressBar.setMax(15);
-            progressBar.setProgress(0);
-            progressBar.setVisibility(View.VISIBLE);
+
             count = 0;
         }
 
@@ -244,8 +267,12 @@ public class FragmentContact extends Fragment {
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
                         ContactModel contact = (ContactModel) adapterView.getItemAtPosition(position);
+                        Intent in = new Intent(getActivity(),MakeCallActivity.class);
+                        in.putExtra("callerNumber",contact.getNumber());
+                        in.putExtra("callerName",contact.getName());
 
-                        Toast.makeText(getContext(), "You Selected " + contact.getIdentity() + " as identity", Toast.LENGTH_SHORT).show();
+                        startActivity(in);
+                      //  Toast.makeText(getContext(), "You Selected " + contact.getIdentity() + " as identity", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
