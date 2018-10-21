@@ -320,7 +320,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
 
                         startActivity(in);
 
-                        Toast.makeText(getContext(), "You Selected " + contact.getIdentity() + " as identity", Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(getContext(), "You Selected " + contact.getIdentity() + " as identity", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
