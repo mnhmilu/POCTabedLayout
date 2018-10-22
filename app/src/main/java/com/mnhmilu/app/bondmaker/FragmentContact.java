@@ -8,10 +8,12 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.SwitchPreference;
 import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +35,7 @@ import java.util.ArrayList;
  * Use the {@link FragmentContact#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentContact extends Fragment {
+public class FragmentContact extends Fragment  implements SwipeRefreshLayout.OnRefreshListener{
 
     private CustomAdapter customAdapter;
     private ArrayList<ContactModel> contactModelArrayList;
@@ -46,6 +48,8 @@ public class FragmentContact extends Fragment {
     private  TextView progressView;
     private  Button btnSyncLastCall;
     private ProgressBar progressBar;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
 
 ///////////////////
 
@@ -119,11 +123,15 @@ public class FragmentContact extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_frag2, container, false);
         mLayout = rootView.findViewById(R.id.main_content);
         progressView=(TextView) rootView.findViewById(R.id.processStatus);
-
         progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
         progressBar.setMax(15);
         progressBar.setProgress(0);
         progressBar.setVisibility(View.VISIBLE);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setSize(SwipeRefreshLayout.DEFAULT);
+        swipeRefreshLayout.setDistanceToTriggerSync(20);
 
         btnSyncLastCall =(Button) rootView.findViewById(R.id.buttonSyncContact);
 
@@ -154,8 +162,11 @@ public class FragmentContact extends Fragment {
 
         customAdapter.notifyDataSetChanged();
 
+    }
 
-
+    @Override
+    public void onRefresh() {
+        new GetContactAsycTask().execute(progressView);
     }
 
     class GetContactAsycTask extends AsyncTask<TextView, String, Boolean> {
@@ -278,6 +289,7 @@ public class FragmentContact extends Fragment {
                     }
                 });
                 btnSyncLastCall.setVisibility(View.VISIBLE);
+                swipeRefreshLayout.setRefreshing(false);
             }
 
         }
