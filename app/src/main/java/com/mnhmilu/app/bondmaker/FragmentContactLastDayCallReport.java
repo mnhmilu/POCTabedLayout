@@ -201,13 +201,15 @@ public class FragmentContactLastDayCallReport extends Fragment  implements Swipe
                     //TODO: add check permission to avoid crash
 
                     publishProgress("Getting your coantact data");
-                    Cursor phones = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, "UPPER(" + ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + ") ASC");
+                    Cursor phones = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.RawContacts.ACCOUNT_TYPE+"=?", new String[]{"com.google"}, "UPPER(" + ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + ") ASC");
 
 
                     while (phones.moveToNext()) {
                         String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
                         String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                         String identity = phones.getString(phones.getColumnIndex(ContactsContract.Contacts._ID));
+                       // String accountType = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.));
+
 
                         ContactModel contactModel = new ContactModel();
                         contactModel.setName(name);
