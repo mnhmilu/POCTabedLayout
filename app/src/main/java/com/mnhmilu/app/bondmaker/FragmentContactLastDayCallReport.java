@@ -225,7 +225,7 @@ public class FragmentContactLastDayCallReport extends Fragment  implements Swipe
                         /////
                         Cursor cursorLastCall = getActivity().getContentResolver().query(CallLog.Calls.CONTENT_URI,
                                 new String[]{CallLog.Calls.DATE, CallLog.Calls.DURATION,
-                                        CallLog.Calls.NUMBER, CallLog.Calls._ID},
+                                        CallLog.Calls.NUMBER, CallLog.Calls._ID,CallLog.Calls.TYPE},
                                 CallLog.Calls.NUMBER + "=?",
                                 new String[]{item.getNumber()},
                                 CallLog.Calls.DATE + " DESC limit 1");
@@ -233,6 +233,26 @@ public class FragmentContactLastDayCallReport extends Fragment  implements Swipe
 
                         if (cursorLastCall != null && cursorLastCall.getCount() >0) {
                             cursorLastCall.moveToLast();
+
+                            int callType = cursorLastCall.getColumnIndex(CallLog.Calls.TYPE);
+                            String callTypeString =cursorLastCall.getString(callType);
+
+                            int dircode = Integer.parseInt(callTypeString);
+                            if(dircode==CallLog.Calls.INCOMING_TYPE)
+                            {
+                                item.setCallType("Incoming");
+                            }else if(dircode==CallLog.Calls.OUTGOING_TYPE)
+                            {
+                                item.setCallType("Outgoing");
+                            }
+                            else if(dircode==CallLog.Calls.MISSED_TYPE)
+                            {
+                                item.setCallType("Missed");
+                            } else
+                            {
+                                item.setCallType("Others");
+                            }
+
 
                             int date = cursorLastCall.getColumnIndex(CallLog.Calls.DATE);
                             //  String testDate = cursorLastCall.getString(cursorLastCall.getColumnIndex(CallLog.Calls.DATE));
@@ -243,7 +263,7 @@ public class FragmentContactLastDayCallReport extends Fragment  implements Swipe
                             DateFormat dt = android.text.format.DateFormat.getDateFormat(getContext());
                             String formattedDate = dt.format(callDayTime);
 
-                            Log.d("Last Call date>>", item.getNumber() + "  " + dt.format(callDayTime) + "  Month: " + callDayTime.getMonth());
+                            Log.d("Last Call date>>", item.getNumber() + "  " + dt.format(callDayTime) + "  Month: " + callDayTime.getMonth() +" "+dircode);
                             item.setLastCallDate(callDayTime);
 
 

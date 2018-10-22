@@ -4,11 +4,19 @@ import java.util.Date;
 
 public class ContactModel {
 
-    private String name, number,identity,accountType;
+    private String name, number,identity,accountType,callType;
 
     private Date lastCallDate;
 
     private int dayElapsed;
+
+    public String getCallType() {
+        return callType;
+    }
+
+    public void setCallType(String callType) {
+        this.callType = callType;
+    }
 
     public String getAccountType() {
         return accountType;
