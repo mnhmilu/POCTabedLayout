@@ -14,6 +14,7 @@ import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,21 +39,23 @@ import java.util.Date;
  * Use the {@link FragmentContactLastDayCallReport#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentContactLastDayCallReport extends Fragment {
+public class FragmentContactLastDayCallReport extends Fragment  implements SwipeRefreshLayout.OnRefreshListener {
 
     private CustomAdapterLastCall customAdapterLastCall;
     private ArrayList<ContactModel> contactModelArrayList;
     private ArrayList<ContactModel> contactModelArrayListForRemove;
 
-    private  Button btnSyncLastCall;
+  //  private  Button btnSyncLastCall;
     private ListView listView;
     private View mLayout;
     public static final String TAG = "FragmentContactLastDayCallReport";
     private TextView progressView;
 
-    private ProgressBar progressBar;
+   // private ProgressBar progressBar;
 
     public static final String PREFERENCES_FILE_NAME = "bondmakerprefrerence";
+
+    private SwipeRefreshLayout swipeRefreshLayout;
 
 ///////////////////
 
@@ -126,25 +129,14 @@ public class FragmentContactLastDayCallReport extends Fragment {
         // Inflate the layout for this fragment
 
         rootView = inflater.inflate(R.layout.fragment_contactlastdayall, container, false);
-        progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
-        progressBar.setMax(15);
-        progressBar.setProgress(0);
-        progressBar.setVisibility(View.VISIBLE);
+
         mLayout = rootView.findViewById(R.id.main_content);
         progressView = (TextView) rootView.findViewById(R.id.processStatus);
 
-        btnSyncLastCall =(Button) rootView.findViewById(R.id.buttonSyncLastCall);
-
-        btnSyncLastCall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               // callNow(getIntent().getStringExtra("callerNumber"));
-                new GetContactLastCallAsycTask().execute(progressView);
-            }
-        });
-
-        btnSyncLastCall.setVisibility(View.INVISIBLE);
-
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout2);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setSize(SwipeRefreshLayout.DEFAULT);
+        swipeRefreshLayout.setDistanceToTriggerSync(20);
 
         customAdapterLastCall = new CustomAdapterLastCall(getContext(), contactModelArrayList) {
             @Override
@@ -171,6 +163,11 @@ public class FragmentContactLastDayCallReport extends Fragment {
         super.onResume();
         customAdapterLastCall.notifyDataSetChanged();
 
+    }
+
+    @Override
+    public void onRefresh() {
+        new GetContactLastCallAsycTask().execute(progressView);
     }
 
     class GetContactLastCallAsycTask extends AsyncTask<TextView, String, Boolean> {
@@ -281,7 +278,6 @@ public class FragmentContactLastDayCallReport extends Fragment {
         protected void onProgressUpdate(String... values) {
             // super.onProgressUpdate(values);
             count++;
-            progressBar.setProgress(count);
             progressView.setText(values[0]);
         }
 
@@ -293,7 +289,6 @@ public class FragmentContactLastDayCallReport extends Fragment {
                 progressView.setText("Processing Done!");
 
                 // Toast.makeText(getContext(), " !", Toast.LENGTH_LONG).show();
-                progressBar.setVisibility(View.GONE);
 
                 customAdapterLastCall = new CustomAdapterLastCall(getContext(), contactModelArrayList) {
                     @Override
@@ -306,7 +301,6 @@ public class FragmentContactLastDayCallReport extends Fragment {
                 ListView listView = (ListView) rootView.findViewById(R.id.listView);
                 listView.setAdapter(customAdapterLastCall);
                 listView.setVisibility(View.VISIBLE);
-                btnSyncLastCall.setVisibility(View.VISIBLE);
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -323,6 +317,8 @@ public class FragmentContactLastDayCallReport extends Fragment {
                       //  Toast.makeText(getContext(), "You Selected " + contact.getIdentity() + " as identity", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+                swipeRefreshLayout.setRefreshing(false);
             }
 
         }
