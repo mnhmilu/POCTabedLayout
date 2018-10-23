@@ -163,6 +163,10 @@ public class FragmentContactLastDayCallReport extends Fragment {
         ListView listView = (ListView) rootView.findViewById(R.id.listView);
         listView.setAdapter(customAdapterLastCall);
         listView.setVisibility(View.INVISIBLE);
+
+        TextView empty = new TextView(getContext());
+        empty.setHeight(150);
+        listView.addFooterView(empty);
         progressView.setText("");
         new GetContactLastCallAsycTask().execute(progressView);
         return rootView;
@@ -364,28 +368,17 @@ public class FragmentContactLastDayCallReport extends Fragment {
                 SharedPreferences mysettings=this.getActivity().getSharedPreferences(PREFERENCES_FILE_NAME, 0);
 
                 int days = mysettings.getInt(getString(R.string.alarm_first_level),10);
-                ///int secondLevel =firstLevel+ mysettings.getInt(getString(R.string.alarm_second_level),10);
                 int secondLevel=days+days+1;
-
                 TextView textViewDays=(TextView) view.findViewById(R.id.textViewDays);
-               // textViewDays.setBackgroundColor(Color.YELLOW);
-
                 TextView textViewDaysFixed=(TextView) view.findViewById(R.id.textViewFixedDays);
-              //  textViewDaysFixed.setBackgroundColor(Color.YELLOW);
-
-
 
                 if (contactModelArrayList.get(position).getDayElapsed() >=0 && contactModelArrayList.get(position).getDayElapsed() <= days) {
-                   // view.setBackgroundColor(Color.GREEN);
                     textViewDays.setBackgroundColor(Color.GREEN);
                     textViewDaysFixed.setBackgroundColor(Color.GREEN);
-
                 } else if (contactModelArrayList.get(position).getDayElapsed() >= (days+1) && contactModelArrayList.get(position).getDayElapsed() < secondLevel) {
-                  //  view.setBackgroundColor(Color.YELLOW);
                     textViewDays.setBackgroundColor(Color.YELLOW);
                     textViewDaysFixed.setBackgroundColor(Color.YELLOW);
                 } else if (contactModelArrayList.get(position).getDayElapsed() >= secondLevel) {
-                  //  view.setBackgroundColor(Color.RED);
                     textViewDays.setBackgroundColor(Color.RED);
                     textViewDaysFixed.setBackgroundColor(Color.RED);
                 }

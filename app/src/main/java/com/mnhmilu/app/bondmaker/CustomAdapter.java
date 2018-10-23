@@ -1,6 +1,7 @@
 package com.mnhmilu.app.bondmaker;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,8 +92,18 @@ public class CustomAdapter extends BaseAdapter {
                 holder.tvnumber.setText(contactModelArrayList.get(position).getNumber());
             }
         }
+        if (position % 2 == 1) {
+            convertView.setBackgroundColor(Color.GRAY);
+        } else {
+            convertView.setBackgroundColor(Color.WHITE);
+        }
+
+
+
         return convertView;
     }
+
+
 
     private class ViewHolder {
 

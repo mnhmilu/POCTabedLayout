@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -132,6 +133,8 @@ public class FragmentContact extends Fragment  implements SwipeRefreshLayout.OnR
     }
 
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -142,10 +145,15 @@ public class FragmentContact extends Fragment  implements SwipeRefreshLayout.OnR
         progressView=(TextView) rootView.findViewById(R.id.processStatus);
 
 
-        customAdapter = new CustomAdapter(getContext(), contactModelArrayList);
+        customAdapter = new CustomAdapter(getContext(), contactModelArrayList) ;
+
         ListView listView = (ListView) rootView.findViewById(R.id.listView);
         listView.setAdapter(customAdapter);
         listView.setVisibility(View.INVISIBLE);
+
+        TextView empty = new TextView(getContext());
+        empty.setHeight(150);
+        listView.addFooterView(empty);
 
         new GetContactAsycTask().execute(progressView);
         return rootView;
