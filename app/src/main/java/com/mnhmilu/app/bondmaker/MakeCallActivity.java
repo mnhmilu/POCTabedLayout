@@ -21,6 +21,11 @@ public class MakeCallActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_call);
+       // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         btnSubmit = (Button) findViewById(R.id.btnCallNow);
         textViewNumber = (TextView) findViewById(R.id.textViewCallNumber);
         textViewNumber.setText(getIntent().getStringExtra("callerNumber"));
@@ -44,6 +49,18 @@ public class MakeCallActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.parse("tel:"+number));
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
 

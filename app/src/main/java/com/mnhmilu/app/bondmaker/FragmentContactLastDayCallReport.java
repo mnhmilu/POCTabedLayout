@@ -105,7 +105,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true);//enable menu refresh
 
 
     }
@@ -186,6 +186,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
         protected void onPreExecute() {
 
             count = 0;
+            progressView.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -347,6 +348,8 @@ public class FragmentContactLastDayCallReport extends Fragment {
                       //  Toast.makeText(getContext(), "You Selected " + contact.getIdentity() + " as identity", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+                progressView.setVisibility(View.GONE);
 
 
             }

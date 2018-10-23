@@ -15,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -97,8 +98,24 @@ public class FragmentContact extends Fragment  implements SwipeRefreshLayout.OnR
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        setHasOptionsMenu(true);
+
+    }
 
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if(id == R.id.action_refresh)
+        {
+            new GetContactAsycTask().execute(progressView);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -155,8 +172,8 @@ public class FragmentContact extends Fragment  implements SwipeRefreshLayout.OnR
 
         @Override
         protected void onPreExecute() {
-
             count = 0;
+            progressView.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -266,7 +283,7 @@ public class FragmentContact extends Fragment  implements SwipeRefreshLayout.OnR
                       //  Toast.makeText(getContext(), "You Selected " + contact.getIdentity() + " as identity", Toast.LENGTH_SHORT).show();
                     }
                 });
-
+                progressView.setVisibility(View.GONE);
             }
 
         }

@@ -24,6 +24,7 @@
         <activity
             android:name=".TagIndexActivity"
             android:label="@string/title_activity_main2"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
@@ -32,6 +33,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".AlertLevelSettingsActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_alert_level_settings"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MakeCallActivity"></activity>
