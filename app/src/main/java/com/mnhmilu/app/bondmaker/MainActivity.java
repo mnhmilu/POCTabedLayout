@@ -107,6 +107,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(in);
 
             return true;
+        }else if(id == R.id.action_refresh)
+        {
+
+           // getSupportFragmentManager().beginTransaction()
+                //    .replace(R.id.fragementsapce, FragmentContactLastDayCallReport.newInstance("","")).commit();
         }
 
         return super.onOptionsItemSelected(item);

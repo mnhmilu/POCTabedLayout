@@ -8,7 +8,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.SwitchPreference;
+
 import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
@@ -49,7 +49,7 @@ public class FragmentContact extends Fragment  implements SwipeRefreshLayout.OnR
 
    // private ProgressBar progressBar;
 
-    private SwipeRefreshLayout swipeRefreshLayout;
+
 
 ///////////////////
 
@@ -123,10 +123,7 @@ public class FragmentContact extends Fragment  implements SwipeRefreshLayout.OnR
         rootView = inflater.inflate(R.layout.fragment_frag2, container, false);
         mLayout = rootView.findViewById(R.id.main_content);
         progressView=(TextView) rootView.findViewById(R.id.processStatus);
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setSize(SwipeRefreshLayout.DEFAULT);
-        swipeRefreshLayout.setDistanceToTriggerSync(20);
+
 
         customAdapter = new CustomAdapter(getContext(), contactModelArrayList);
         ListView listView = (ListView) rootView.findViewById(R.id.listView);
@@ -269,7 +266,7 @@ public class FragmentContact extends Fragment  implements SwipeRefreshLayout.OnR
                       //  Toast.makeText(getContext(), "You Selected " + contact.getIdentity() + " as identity", Toast.LENGTH_SHORT).show();
                     }
                 });
-                swipeRefreshLayout.setRefreshing(false);
+
             }
 
         }

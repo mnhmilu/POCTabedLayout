@@ -4,14 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
+    android:id="@+id/lastcallfragmentid"
     android:tag="lastcallfragment"
     tools:context=".FragmentContact">
 
     <!-- TODO: Update blank fragment layout -->
-<android.support.v4.widget.SwipeRefreshLayout
-    android:layout_width="wrap_content"
-    android:id="@+id/swipeRefreshLayout"
-    android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,5 +29,4 @@
 
         </ListView>
     </LinearLayout>
-</android.support.v4.widget.SwipeRefreshLayout>
 </FrameLayout>

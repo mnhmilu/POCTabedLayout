@@ -17,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -39,7 +40,7 @@ import java.util.Date;
  * Use the {@link FragmentContactLastDayCallReport#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentContactLastDayCallReport extends Fragment  implements SwipeRefreshLayout.OnRefreshListener {
+public class FragmentContactLastDayCallReport extends Fragment {
 
     private CustomAdapterLastCall customAdapterLastCall;
     private ArrayList<ContactModel> contactModelArrayList;
@@ -55,7 +56,7 @@ public class FragmentContactLastDayCallReport extends Fragment  implements Swipe
 
     public static final String PREFERENCES_FILE_NAME = "bondmakerprefrerence";
 
-    private SwipeRefreshLayout swipeRefreshLayout;
+
 
 ///////////////////
 
@@ -104,7 +105,7 @@ public class FragmentContactLastDayCallReport extends Fragment  implements Swipe
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-
+        setHasOptionsMenu(true);
 
 
     }
@@ -122,6 +123,21 @@ public class FragmentContactLastDayCallReport extends Fragment  implements Swipe
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+       if(id == R.id.action_refresh)
+        {
+            new GetContactLastCallAsycTask().execute(progressView);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -133,10 +149,6 @@ public class FragmentContactLastDayCallReport extends Fragment  implements Swipe
         mLayout = rootView.findViewById(R.id.main_content);
         progressView = (TextView) rootView.findViewById(R.id.processStatus);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout2);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setSize(SwipeRefreshLayout.DEFAULT);
-        swipeRefreshLayout.setDistanceToTriggerSync(20);
 
         customAdapterLastCall = new CustomAdapterLastCall(getContext(), contactModelArrayList) {
             @Override
@@ -165,10 +177,6 @@ public class FragmentContactLastDayCallReport extends Fragment  implements Swipe
 
     }
 
-    @Override
-    public void onRefresh() {
-        new GetContactLastCallAsycTask().execute(progressView);
-    }
 
     class GetContactLastCallAsycTask extends AsyncTask<TextView, String, Boolean> {
 
@@ -340,7 +348,7 @@ public class FragmentContactLastDayCallReport extends Fragment  implements Swipe
                     }
                 });
 
-                swipeRefreshLayout.setRefreshing(false);
+
             }
 
         }
