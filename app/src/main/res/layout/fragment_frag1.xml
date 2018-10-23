@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
+    android:tag="test"
     tools:context=".FragmentHome">
 
     <!-- TODO: Update blank fragment layout -->

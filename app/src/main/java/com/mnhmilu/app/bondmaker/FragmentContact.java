@@ -183,7 +183,7 @@ public class FragmentContact extends Fragment  implements SwipeRefreshLayout.OnR
                     //TODO: add check permission to avoid crash
 
                     publishProgress("Getting your coantact data");
-                    Cursor phones = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, "UPPER(" + ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + ") ASC");
+                    Cursor phones = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.RawContacts.ACCOUNT_TYPE+"=?", new String[]{"com.google"}, "UPPER(" + ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + ") ASC");
 
 
                     while (phones.moveToNext()) {
@@ -193,7 +193,8 @@ public class FragmentContact extends Fragment  implements SwipeRefreshLayout.OnR
 
                         ContactModel contactModel = new ContactModel();
                         contactModel.setName(name);
-                        contactModel.setNumber(phoneNumber);
+                        contactModel.setNumber(phoneNumber.replace(" ","").replace("-",""));
+                       // contactModel.setNumber(phoneNumber);
                         contactModel.setIdentity(identity);
                         contactModelArrayList.add(contactModel);
                         publishProgress("Getting your conatact information.......");
