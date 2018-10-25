@@ -226,7 +226,14 @@ public class FragmentContact extends Fragment  implements SwipeRefreshLayout.OnR
 
 
                     phones.close();
+
+                    int listSize=contactModelArrayList.size();
+                    int counter=0;
+
+
                     for (ContactModel item : contactModelArrayList) {
+
+                        counter++;
                         /////
                         Cursor cursorLastCall = getActivity().getContentResolver().query(CallLog.Calls.CONTENT_URI,
                                 new String[]{CallLog.Calls.DATE, CallLog.Calls.DURATION,
@@ -243,7 +250,9 @@ public class FragmentContact extends Fragment  implements SwipeRefreshLayout.OnR
 
                         cursorLastCall.close();
                         //cursorLastCall = null;
-                        publishProgress("Analyzing your call history..........");
+                      //  publishProgress("Analyzing your call history..........");
+                        publishProgress("Analyzing your call history, "+counter+" of "+listSize+" contacts");
+
                     }
 
                     //contactModelArrayNeverCalled.removeAll(contactModelArrayList);
