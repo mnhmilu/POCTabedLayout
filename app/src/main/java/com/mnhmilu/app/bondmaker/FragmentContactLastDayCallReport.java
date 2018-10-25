@@ -236,7 +236,12 @@ public class FragmentContactLastDayCallReport extends Fragment {
 
 
                     phones.close();
+
+                    int listSize=contactModelArrayList.size();
+                    int counter=0;
+
                     for (ContactModel item : contactModelArrayList) {
+                        counter++;
                         /////
                         Cursor cursorLastCall = getActivity().getContentResolver().query(CallLog.Calls.CONTENT_URI,
                                 new String[]{CallLog.Calls.DATE, CallLog.Calls.DURATION,
@@ -299,7 +304,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
 
                         cursorLastCall.close();
                         //cursorLastCall = null;
-                        publishProgress("Analyzing your call history..........");
+                        publishProgress("Analyzing your call history, "+counter+" of "+listSize+" contacts");
                     }
                     contactModelArrayList.removeAll(contactModelArrayListForRemove);
                 }
