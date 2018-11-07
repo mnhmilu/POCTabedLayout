@@ -10,11 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 public class AlertLevelSettingsActivity extends AppCompatActivity {
 
     private EditText editText1;
-    Button btnSubmit;
+    ImageButton btnSubmit;
     public static final String PREFERENCES_FILE_NAME = "bondmakerprefrerence";
 
     @Override
@@ -29,7 +30,7 @@ public class AlertLevelSettingsActivity extends AppCompatActivity {
 
         editText1 =(EditText) findViewById(R.id.tbxAlert1);
 
-        btnSubmit = (Button) findViewById(R.id.btnSubmitAlertLevel);
+        btnSubmit = (ImageButton) findViewById(R.id.btnSubmitAlertLevel);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -120,20 +120,6 @@ public class FragmentContact extends Fragment  implements SwipeRefreshLayout.OnR
     }
 
 
-    public static boolean hasPermission(Context context, String... permissions) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
-            for (String permission : permissions) {
-                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED
-                        ) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -194,9 +180,6 @@ public class FragmentContact extends Fragment  implements SwipeRefreshLayout.OnR
                 int permission_all = 1;
                 String[] permissions = {Manifest.permission.READ_CONTACTS, Manifest.permission.READ_CALL_LOG};
                 publishProgress("Checking Permission....");
-                if (!hasPermission(getContext(), permissions)) {
-                    ActivityCompat.requestPermissions(getActivity(), permissions, permission_all);
-                } else {
 
                     contactModelArrayList = new ArrayList<>();
                     contactModelArrayNeverCalled = new ArrayList<>();
@@ -261,7 +244,7 @@ public class FragmentContact extends Fragment  implements SwipeRefreshLayout.OnR
 
                 }
                 returnValue = true;
-            }
+
             return returnValue;
             //  return "Task done,All item are populated in the list";
         }

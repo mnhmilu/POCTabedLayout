@@ -28,32 +28,35 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="200dp"
         android:orientation="vertical">
 
 
-
-
         <TextView
             android:id="@+id/textView4"
-            android:layout_width="match_parent"
+            android:layout_width="227dp"
             android:layout_height="wrap_content"
+            android:text="Configure your alert:"
+            android:textAlignment="center"
             android:textSize="15dp"
-            android:text="Configure your alerts:" />
-
+            android:textStyle="bold" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
-android:paddingLeft="100dp"
-            android:paddingRight="80dp"
-            android:layout_height="wrap_content" android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="100dp"
+            android:paddingRight="80dp">
 
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="47dp"
                 android:layout_height="wrap_content"
                 android:text="Each " />
+
             <EditText
                 android:id="@+id/tbxAlert1"
                 android:layout_width="76dp"
@@ -68,18 +71,28 @@ android:paddingLeft="100dp"
                 android:text="Days " />
         </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:paddingLeft="100dp"
-        android:layout_height="wrap_content" android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnSubmitAlertLevel"
-            android:layout_width="179dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save" />
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:paddingLeft="40dp">
 
+            <ImageButton
+                android:id="@+id/btnSubmitAlertLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="117dp"
+                android:layout_marginBottom="206dp"
+                app:srcCompat="@android:drawable/ic_menu_save" />
+
+            <!--    <Button
+                android:id="@+id/btnSubmitAlertLevel"
+                android:layout_width="179dp"
+                android:layout_height="wrap_content"
+                android:text="Save" />-->
+        </LinearLayout>
 
 
     </LinearLayout>

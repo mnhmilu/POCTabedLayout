@@ -8,12 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class MakeCallActivity extends AppCompatActivity {
 
     TextView textViewNumber,textViewName;
-    Button btnSubmit;
+    ImageButton btnSubmit;
 
 
 
@@ -26,7 +27,7 @@ public class MakeCallActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        btnSubmit = (Button) findViewById(R.id.btnCallNow);
+        btnSubmit = (ImageButton) findViewById(R.id.btnCallNow);
         textViewNumber = (TextView) findViewById(R.id.textViewCallNumber);
         textViewNumber.setText(getIntent().getStringExtra("callerNumber"));
 

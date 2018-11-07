@@ -111,17 +111,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
     }
 
 
-    public static boolean hasPermission(Context context, String... permissions) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
-            for (String permission : permissions) {
-                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED
-                        ) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -168,13 +158,14 @@ public class FragmentContactLastDayCallReport extends Fragment {
         empty.setHeight(150);
         listView.addFooterView(empty);
         progressView.setText("");
-        new GetContactLastCallAsycTask().execute(progressView);
+         new GetContactLastCallAsycTask().execute(progressView);
         return rootView;
     }
 
 
     @Override
     public void onResume() {
+        Log.d("Last On Resume>>", "");
 
         super.onResume();
         customAdapterLastCall.notifyDataSetChanged();
@@ -203,10 +194,6 @@ public class FragmentContactLastDayCallReport extends Fragment {
                 int permission_all = 1;
                 String[] permissions = {Manifest.permission.READ_CONTACTS, Manifest.permission.READ_CALL_LOG};
                 publishProgress("Checking Permission....");
-                if (!hasPermission(getContext(), permissions)) {
-                    ActivityCompat.requestPermissions(getActivity(), permissions, permission_all);
-                } else {
-
                     contactModelArrayList = new ArrayList<>();
                     contactModelArrayListForRemove = new ArrayList<>();
 
@@ -309,7 +296,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
                     contactModelArrayList.removeAll(contactModelArrayListForRemove);
                 }
                 returnValue = true;
-            }
+            //}
             return returnValue;
             //  return "Task done,All item are populated in the list";
         }
