@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        db = new SQLiteDatabaseHandler(this);
+       // db = new SQLiteDatabaseHandler(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -107,11 +107,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(in);
 
             return true;
-        }else if(id == R.id.action_refresh)
+        }else if(id == R.id.action_about)
         {
-
-           // getSupportFragmentManager().beginTransaction()
-                //    .replace(R.id.fragementsapce, FragmentContactLastDayCallReport.newInstance("","")).commit();
+            Intent in = new Intent(this,AboutActivity.class);
+            in.putExtra("some","some data");
+            startActivity(in);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

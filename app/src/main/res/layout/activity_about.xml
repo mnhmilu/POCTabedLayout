@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AboutActivity">
+
+    <TextView
+        android:id="@+id/infoText"
+        android:layout_width="335dp"
+        android:layout_height="161dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="150dp"
+        android:background="@color/colorPrimary"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:paddingTop="20dp"
+        android:text="Hi! I am Nahid from Bangladesh.\n If you like this app,please rate and share.\n Send your valuable feedback to mnh_milu@yahoo.com \n Thanks!
+         \nImage Credit: unsplash.com"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/infoText"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="43dp"
+        android:layout_marginBottom="150dp"
+        android:text="Bond Maker"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+    <TextView
+        android:id="@+id/versionName2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+
+        android:layout_alignStart="@+id/textView3"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="188dp"
+        android:layout_marginBottom="154dp"
+        android:text="vvv" />
+
+</RelativeLayout>
