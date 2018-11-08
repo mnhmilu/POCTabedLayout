@@ -76,9 +76,9 @@ public class SplashScreen extends AppCompatActivity {
         String versionName = BuildConfig.VERSION_NAME;
         int versionCode = BuildConfig.VERSION_CODE;
 
-        textView=(TextView)  findViewById(R.id.versionName) ;
+      //  textView=(TextView)  findViewById(R.id.versionName) ;
 
-        textView.setText(versionName);
+        //textView.setText(versionName);
 
 
         Thread myThread = new Thread()
