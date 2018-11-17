@@ -1,7 +1,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.mnhmilu.app.bondmaker.MainActivity">
+   tools:context="com.mnhmilu.app.bondmaker.MainActivity">
+
+    <item android:id="@+id/spinner"
+        android:visible="true"
+        app:showAsAction="always"
+        android:title="Filter"
+        app:actionViewClass="android.widget.Spinner" />
 
     <item
         android:id="@+id/action_refresh"

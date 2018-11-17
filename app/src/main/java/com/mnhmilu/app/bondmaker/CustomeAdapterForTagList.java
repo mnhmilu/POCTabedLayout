@@ -13,6 +13,8 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.mnhmilu.app.bondmaker.entity.TagModel;
+
 import java.util.ArrayList;
 
 public class CustomeAdapterForTagList extends BaseAdapter {

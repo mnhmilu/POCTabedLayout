@@ -1,4 +1,4 @@
-package com.mnhmilu.app.bondmaker;
+package com.mnhmilu.app.bondmaker.entity;
 
 import android.nfc.Tag;
 

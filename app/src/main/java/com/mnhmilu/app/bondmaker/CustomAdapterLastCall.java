@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.mnhmilu.app.bondmaker.entity.ContactModel;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 
@@ -89,9 +91,14 @@ public class CustomAdapterLastCall extends BaseAdapter {
                 holder.tvnumber.setText(contactModelArrayList.get(position).getNumber());
 
                 if (contactModelArrayList.get(position).getLastCallDate() != null) {
-                    String date = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(contactModelArrayList.get(position).getLastCallDate());
-                    holder.tvlastcalldate.setText(contactModelArrayList.get(position).getCallType()+": "+date);
+                  //  String date = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(contactModelArrayList.get(position).getLastCallDate());
+                    String date = contactModelArrayList.get(position).getLastCallDate();
+                    holder.tvlastcalldate.setText(contactModelArrayList.get(position).getCallType()+": "+date+" Tag:"+contactModelArrayList.get(position).getContact_tag());
                     holder.tvelapsedDay.setText(String.valueOf(contactModelArrayList.get(position).getDayElapsed()));
+                }else
+                {
+                    holder.tvelapsedDay.setText("-");
+                    holder.tvlastcalldate.setText("Never Called");
                 }
 
             }

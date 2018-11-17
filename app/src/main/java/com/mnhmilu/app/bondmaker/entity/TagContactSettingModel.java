@@ -1,4 +1,4 @@
-package com.mnhmilu.app.bondmaker;
+package com.mnhmilu.app.bondmaker.entity;
 
 public class TagContactSettingModel {
 

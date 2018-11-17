@@ -17,6 +17,8 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.mnhmilu.app.bondmaker.entity.TagModel;
+
 import java.util.ArrayList;
 
 public class TagIndexActivity extends AppCompatActivity {

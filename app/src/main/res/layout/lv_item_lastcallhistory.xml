@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
@@ -18,7 +19,8 @@
             android:paddingTop="5dp"
             android:text="TextView"
             android:textAlignment="center"
-            android:textSize="35dp" />
+            android:textSize="35dp"
+            tools:text="-" />
 
         <TextView
             android:id="@+id/textViewFixedDays"
@@ -40,7 +42,7 @@
             android:paddingLeft="10dp"
             android:text="Name"
             android:textColor="#000000"
-            android:textSize="20dp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/number"
@@ -57,11 +59,11 @@
             android:id="@+id/lastCallDate"
             android:layout_width="291dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignStart="@+id/name"
+            android:layout_alignParentBottom="true"
             android:layout_marginStart="0dp"
             android:paddingLeft="10dp"
-            android:text="Na"
+            android:text="-"
             android:textColor="#000000"
             android:textSize="15sp" />
 

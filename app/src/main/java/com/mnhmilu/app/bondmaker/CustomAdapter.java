@@ -8,11 +8,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.text.DateFormat;
-import java.text.FieldPosition;
-import java.text.ParsePosition;
+import com.mnhmilu.app.bondmaker.entity.ContactModel;
+
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by Parsania Hardik on 11-May-17.

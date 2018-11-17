@@ -13,7 +13,7 @@
         android:layout_height="173dp"
         android:layout_marginStart="101dp"
         android:layout_marginTop="161dp"
-        app:srcCompat="@mipmap/ic_unity_round" />
+        android:contentDescription="TODO" app:srcCompat="@mipmap/ic_unity_round" />
 
     <TextView
         android:id="@+id/textView"
@@ -28,6 +28,17 @@
         android:text="The Bond Maker"
         android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+    <TextView
+        android:id="@+id/textViewStatus"
+        android:layout_width="106dp"
+        android:layout_height="218dp"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="-42dp"
+        android:text="Wait"
+        android:textAlignment="textStart" />
 
 
 </RelativeLayout>

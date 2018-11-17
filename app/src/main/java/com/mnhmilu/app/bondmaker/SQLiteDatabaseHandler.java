@@ -5,6 +5,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.mnhmilu.app.bondmaker.entity.TagContactSettingModel;
+import com.mnhmilu.app.bondmaker.entity.TagModel;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -39,6 +39,20 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="284dp"
         android:layout_marginEnd="97dp"
-        app:srcCompat="@android:drawable/stat_sys_phone_call_forward" />
+        android:contentDescription="TODO" app:srcCompat="@android:drawable/stat_sys_phone_call_forward" />
+
+    <Spinner
+        android:id="@+id/other_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageButton
+        android:id="@+id/btnAddTag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/other_spinner"
+        android:layout_alignStart="@+id/textViewCallName"
+        app:srcCompat="@android:drawable/btn_star_big_on" />
+
 
 </RelativeLayout>
