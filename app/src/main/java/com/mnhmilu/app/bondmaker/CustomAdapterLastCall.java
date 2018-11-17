@@ -39,9 +39,10 @@ public class CustomAdapterLastCall extends BaseAdapter {
 
     @Override
     public int getCount() {
-        //  return  0;
 
-        if (contactModelArrayList != null) {
+         // return  contactModelArrayList.size();
+
+       if (contactModelArrayList != null) {
 
             if (contactModelArrayList.size() == 0)
                 return 1;

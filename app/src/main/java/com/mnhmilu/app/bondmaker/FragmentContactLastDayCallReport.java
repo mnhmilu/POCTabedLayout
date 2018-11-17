@@ -13,6 +13,8 @@ import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +52,8 @@ public class FragmentContactLastDayCallReport extends Fragment {
     private View mLayout;
     public static final String TAG = "FragmentContactLastDayCallReport";
     private TextView progressView;
+    private Spinner spinner;
+    private  String tagKey="";
 
     SQLiteDatabaseHandlerForStoreContacts db;
 
@@ -105,43 +109,50 @@ public class FragmentContactLastDayCallReport extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-       // Spinner spinner =new Spinner(getContext());
-// Create an ArrayAdapter using the string array and a default spinner layout
-    //    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-      //          R.array.filtercontact, android.R.layout.simple_expandable_list_item_1);
-// Specify the layout to use when the list of choices appears
-       // adapter.setDropDownViewResource(android.R.layout.simple_expandable_list_item_1);
-// Apply the adapter to the spinner
-        //spinner.setAdapter(adapter);
-
-     /*   final Spinner spinner = new Spinner(getContext());
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.filtercontact)); //selected item will look like a spinner set from XML
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
-        spinner.setAdapter(spinnerArrayAdapter);
-*/
-       /* spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                       int arg2, long arg3) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-
-            }
-        });*/
-
         setHasOptionsMenu(true);//enable menu refresh
-
-
     }
 
 
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Do something that differs the Activity's menu here
+
+        MenuItem spinnerItem = menu.findItem(R.id.spinner);
+        Spinner spinner = (Spinner)spinnerItem.getActionView().findViewById(R.id.spinner);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+
+                if(position==0) {// do nothing
+                    /*Toast toast2 = Toast.makeText(getContext(),
+                            "Do Nothing",
+                            Toast.LENGTH_SHORT);
+                    toast2.show();*/
+                }else {
+
+                    String itemselected = parent.getSelectedItem().toString();
+
+                    Toast toast = Toast.makeText(getContext(),
+                            itemselected,
+                            Toast.LENGTH_SHORT);
+                    toast.show();
+
+                    tagKey=itemselected;
+
+                    new GetContactLastCallAsycTask().execute(progressView);
+
+
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
 
     @Override
@@ -153,6 +164,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
 
        if(id == R.id.action_refresh)
         {
+            tagKey="refresh";
             new GetContactLastCallAsycTask().execute(progressView);
         }
 
@@ -171,8 +183,8 @@ public class FragmentContactLastDayCallReport extends Fragment {
         mLayout = rootView.findViewById(R.id.main_content);
         progressView = (TextView) rootView.findViewById(R.id.processStatus);
 
-        ArrayList<ContactModel> dbList=db.getAllContactsModels();
-
+      //  ArrayList<ContactModel> dbList=db.getAllContactsModels();
+        contactModelArrayList = new ArrayList<>();
         customAdapterLastCall = new CustomAdapterLastCall(getContext(),contactModelArrayList ) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -220,22 +232,27 @@ public class FragmentContactLastDayCallReport extends Fragment {
         protected Boolean doInBackground(TextView... textViews) {
 
             Boolean returnValue = false;
+            contactModelArrayList = new ArrayList<>();
 
             if (textViews.length > 0) {
                 progressView = textViews[0];
-                int permission_all = 1;
-                String[] permissions = {Manifest.permission.READ_CONTACTS, Manifest.permission.READ_CALL_LOG};
-                publishProgress("Checking Permission....");
-                    contactModelArrayList = new ArrayList<>();
 
+                publishProgress("Getting your coantact data");
+                contactModelArrayList.clear();
 
-                    //TODO: add check permission to avoid crash
-
-                    publishProgress("Getting your coantact data");
-
-
-                contactModelArrayList=db.getAllContactsModels();
-
+                if(tagKey.equalsIgnoreCase("")||tagKey.equalsIgnoreCase("All")) {
+                    contactModelArrayList = db.getAllContactsModels();
+                }
+                else if (tagKey.equalsIgnoreCase("refresh"))
+                {
+                    updateContactwithCallLogs();
+                    contactModelArrayList = db.getAllContactsModels();
+                }
+                else
+                {
+                    contactModelArrayList=db.getContactsModelsByTag(tagKey);
+                }
+                tagKey="";
 
                 }
                 returnValue = true;
@@ -298,9 +315,86 @@ public class FragmentContactLastDayCallReport extends Fragment {
         }
     }
 
+    private void updateContactwithCallLogs()
+    {
+        ArrayList<ContactModel> cantacts =db.getAllContactsModels();
+
+        for (ContactModel item : cantacts) {
+            //  counter++;
+            /////
+            Cursor cursorLastCall = getActivity().getContentResolver().query(CallLog.Calls.CONTENT_URI,
+                    new String[]{CallLog.Calls.DATE, CallLog.Calls.DURATION,
+                            CallLog.Calls.NUMBER, CallLog.Calls._ID, CallLog.Calls.TYPE},
+                    CallLog.Calls.NUMBER + "=?",
+                    new String[]{item.getNumber()},
+                    CallLog.Calls.DATE + " DESC limit 1");
+
+
+            if (cursorLastCall != null && cursorLastCall.getCount() > 0) {
+
+                cursorLastCall.moveToLast();
+                int callType = cursorLastCall.getColumnIndex(CallLog.Calls.TYPE);
+                String callTypeString = cursorLastCall.getString(callType);
+
+                int dircode = Integer.parseInt(callTypeString);
+                if (dircode == CallLog.Calls.INCOMING_TYPE) {
+                    item.setCallType("Incoming");
+                } else if (dircode == CallLog.Calls.OUTGOING_TYPE) {
+                    item.setCallType("Outgoing");
+                } else if (dircode == CallLog.Calls.MISSED_TYPE) {
+                    item.setCallType("Missed");
+                } else {
+                    item.setCallType("Others");
+                }
+
+                int date = cursorLastCall.getColumnIndex(CallLog.Calls.DATE);
+                //  String testDate = cursorLastCall.getString(cursorLastCall.getColumnIndex(CallLog.Calls.DATE));
+
+                String callDate = cursorLastCall.getString(date);
+                Date callDayTime = new Date(Long.valueOf(callDate));
+
+                DateFormat dt = android.text.format.DateFormat.getDateFormat(getContext());
+                String formattedDate = dt.format(callDayTime);
+
+                item.setLastCallDate(formattedDate);
+
+
+                long diff = new Date().getTime() - callDayTime.getTime();
+                long seconds = diff / 1000;
+                long minutes = seconds / 60;
+                long hours = minutes / 60;
+                long days = hours / 24;
+
+                long l = days;
+                int i = (int) l;
+
+                item.setDayElapsed(i);
+
+                Log.d("Last Call date>>", item.getNumber() + "  " + dt.format(callDayTime) + "  Month: " + callDayTime.getMonth() + " days" + item.getDayElapsed());
+
+
+            } else {
+                item.setContact_tag("Never Called");
+            }
+
+            db.updateContactModelByIdentity(item); //only update
+
+            // ContactModel entity = db.getContactbyContactIdentity(item.getIdentity());
+            //Log.d("Debug day elapsed>>", " dayelapsed "+entity.getDayElapsed());
+
+            cursorLastCall.close();
+
+        }
+    }
+
     private void setRowColor(int position, View view) {
         if(contactModelArrayList != null) {
-            if (contactModelArrayList.size() > 0 ) {
+
+            //TODO: unclear logic "" temporary fix for worng position then size
+            if (contactModelArrayList.size() > 0  && position<contactModelArrayList.size()) {
+
+
+                Log.d("#####Debug","position: "+position+" Size: "+contactModelArrayList.size());
 
                 SharedPreferences mysettings=this.getActivity().getSharedPreferences(PREFERENCES_FILE_NAME, 0);
 
@@ -309,11 +403,11 @@ public class FragmentContactLastDayCallReport extends Fragment {
                 TextView textViewDays=(TextView) view.findViewById(R.id.textViewDays);
                 TextView textViewDaysFixed=(TextView) view.findViewById(R.id.textViewFixedDays);
 
-              //  if(contactModelArrayList.get(position).getContact_tag().equalsIgnoreCase("NEVER_CALLED"))
-              //  {
-               //     textViewDays.setBackgroundColor(Color.GRAY);
-              //      textViewDaysFixed.setBackgroundColor(Color.GRAY);
-              //  }else {
+               if(contactModelArrayList.get(position).getContact_tag().equalsIgnoreCase("Never Called"))
+               {
+                    textViewDays.setBackgroundColor(Color.GRAY);
+                   textViewDaysFixed.setBackgroundColor(Color.GRAY);
+                }else {
 
                     if (contactModelArrayList.get(position).getDayElapsed() >= 0 && contactModelArrayList.get(position).getDayElapsed() <= days) {
                         textViewDays.setBackgroundColor(Color.GREEN);
@@ -325,7 +419,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
                         textViewDays.setBackgroundColor(Color.RED);
                         textViewDaysFixed.setBackgroundColor(Color.RED);
                     }
-                //}
+                }
 
             }
         }

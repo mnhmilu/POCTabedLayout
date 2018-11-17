@@ -20,14 +20,14 @@
     <string name="filter_prompt">Choose a filter</string>
     <string-array name="filtercontact">
         <item>Select Filter</item>
-        <item>Family</item>
-        <item>Close Family</item>
-        <item>Friends</item>
-        <item>Close Friends</item>
+        <item>All</item>
         <item>Business</item>
-
-
-    </string-array>
-
-
+        <item>Co-Worker</item>
+        <item>Family</item>
+        <item>Friends</item>
+        <item>Never Called</item>
+        <item>Network</item>
+        <item>Support Group</item>
+        <item>Utility</item>
+        </string-array>
 </resources>

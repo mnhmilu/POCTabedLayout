@@ -57,7 +57,7 @@ public class SplashScreen extends AppCompatActivity {
             isFirstTimeLoad=false;
            // loadMainActivity();
             textView =(TextView) findViewById(R.id.textViewStatus);
-
+            setContentView(R.layout.activity_splash_screen);
             new PrepareApplicationDataAsycTask().execute(textView);
         }
 
@@ -140,7 +140,7 @@ public class SplashScreen extends AppCompatActivity {
                 else { // it not the first time , only update the call history
 
 
-                   updateContactwithCallLogs();
+                  // updateContactwithCallLogs();
                    //TODO: Sync the contact for new contact entry
 
 
@@ -173,6 +173,7 @@ public class SplashScreen extends AppCompatActivity {
                 contactModel.setName(name);
                 contactModel.setNumber(phoneNumber.replace(" ", "").replace("-", ""));
                 contactModel.setIdentity(identity);
+                contactModel.setContact_tag("");
                // contactModel.setDayElapsed(-1);
                 db.addContact(contactModel); // saving to database
             }
@@ -239,7 +240,7 @@ public class SplashScreen extends AppCompatActivity {
 
 
                 } else {
-                    item.setContact_tag("NEVER_CALLED");
+                    item.setContact_tag("Never Called");
                 }
 
                 db.updateContactModelByIdentity(item); //only update
@@ -251,10 +252,6 @@ public class SplashScreen extends AppCompatActivity {
 
             }
         }
-
-
-
-
 
         @Override
         protected void onProgressUpdate(String... values) {
@@ -278,7 +275,6 @@ public class SplashScreen extends AppCompatActivity {
 
     private void loadMainActivity() {
 
-        setContentView(R.layout.activity_splash_screen);
 
         String versionName = BuildConfig.VERSION_NAME;
         int versionCode = BuildConfig.VERSION_CODE;

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+import android.widget.Spinner;
 
 import com.mnhmilu.app.bondmaker.entity.ContactModel;
 
@@ -164,7 +166,7 @@ public class SQLiteDatabaseHandlerForStoreContacts extends SQLiteOpenHelper {
         public ArrayList<ContactModel> getAllContactsModels() {
             ArrayList<ContactModel> models = new ArrayList<ContactModel>();
             // Select All Query
-            String selectQuery = "SELECT  * FROM " + TABLE_BONDMAKER_DATA;
+            String selectQuery = "SELECT  * FROM " + TABLE_BONDMAKER_DATA +" WHERE contact_tag!='Never Called'";;
 
             SQLiteDatabase db = this.getWritableDatabase();
             Cursor cursor = db.rawQuery(selectQuery, null);
@@ -188,6 +190,36 @@ public class SQLiteDatabaseHandlerForStoreContacts extends SQLiteOpenHelper {
 
             return models;
         }
+
+    public ArrayList<ContactModel> getContactsModelsByTag(String tag) {
+        ArrayList<ContactModel> models = new ArrayList<ContactModel>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_BONDMAKER_DATA +" WHERE contact_tag='"+tag.trim()+"'";
+
+        Log.d(">>>>Query",selectQuery);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                ContactModel model = new ContactModel();
+                model.setId(Integer.parseInt(cursor.getString(0)));
+                model.setName(cursor.getString(1));//name
+                model.setNumber(cursor.getString(2));//number
+                model.setIdentity(cursor.getString(3));//identity
+                model.setContact_tag(cursor.getString(4));//contact_tag
+                model.setCallType(cursor.getString(5));//calltype
+                model.setLastCallDate(cursor.getString(6));//lastcallDate
+                model.setDayElapsed(cursor.getInt(7));//dayelapshes
+
+                models.add(model);
+            } while (cursor.moveToNext());
+        }
+
+        return models;
+    }
 
         // Updating single country
         public int updateContactModelByIdentity(ContactModel model) {
