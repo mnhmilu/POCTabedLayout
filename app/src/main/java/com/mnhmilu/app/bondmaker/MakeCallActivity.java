@@ -70,10 +70,10 @@ public class MakeCallActivity extends AppCompatActivity implements AdapterView.O
 
         String currentTagName="No Tag";
 
-        Toast toast = Toast.makeText(getApplicationContext(),
+        /*Toast toast = Toast.makeText(getApplicationContext(),
                 "Debug is tag:"+entity.getContact_tag()+" callType:"+entity.getCallType(),
                 Toast.LENGTH_SHORT);
-        toast.show();;
+        toast.show();;*/
 
 
        // if(entity.getContact_tag()!=null)

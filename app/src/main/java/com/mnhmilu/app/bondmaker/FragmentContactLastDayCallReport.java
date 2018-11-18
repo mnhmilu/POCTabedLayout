@@ -132,10 +132,10 @@ public class FragmentContactLastDayCallReport extends Fragment {
 
                     String itemselected = parent.getSelectedItem().toString();
 
-                    Toast toast = Toast.makeText(getContext(),
+                   /* Toast toast = Toast.makeText(getContext(),
                             itemselected,
                             Toast.LENGTH_SHORT);
-                    toast.show();
+                    toast.show();*/
 
                     tagKey=itemselected;
 
@@ -194,7 +194,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
             }
         };
 
-        ListView listView = (ListView) rootView.findViewById(R.id.listView);
+        listView = (ListView) rootView.findViewById(R.id.listView);
         listView.setAdapter(customAdapterLastCall);
         listView.setVisibility(View.INVISIBLE);
 
@@ -226,6 +226,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
 
             count = 0;
             progressView.setVisibility(View.VISIBLE);
+            listView.setVisibility(View.INVISIBLE);
         }
 
         @Override
@@ -287,7 +288,15 @@ public class FragmentContactLastDayCallReport extends Fragment {
                 };
                 ListView listView = (ListView) rootView.findViewById(R.id.listView);
                 listView.setAdapter(customAdapterLastCall);
-                listView.setVisibility(View.VISIBLE);
+
+                if(contactModelArrayList.size()>0) {
+                    listView.setVisibility(View.VISIBLE);
+                }else {
+                        Toast toast2 = Toast.makeText(getContext(),
+                            "No Data Found",
+                            Toast.LENGTH_SHORT);
+                    toast2.show();
+                }
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
