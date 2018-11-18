@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,17 +23,18 @@ import com.mnhmilu.app.bondmaker.entity.ContactModel;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class SplashScreen extends AppCompatActivity {
 
     TextView textViewStatus;
-    private ArrayList<ContactModel> cantacts;
+    private ArrayList<ContactModel> contacts;
     SQLiteDatabaseHandlerForStoreContacts db;
 
-    private TextView progressView;
+    private TextView progressView,versionText;
 
     private  boolean isFirstTimeLoad=false;
+
+    private ProgressBar splashProgress;
 
     public static final String PREFERENCES_FILE_NAME_LASTSYNC = "bondmakerprefrerencelastsync";
 
@@ -47,6 +49,17 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
         textViewStatus =(TextView) findViewById(R.id.textViewStatus);
+
+        splashProgress=(ProgressBar) findViewById(R.id.progressBarSplash);
+
+        String versionName = BuildConfig.VERSION_NAME;
+        int versionCode = BuildConfig.VERSION_CODE;
+
+        versionText=(TextView)  findViewById(R.id.versionSplash) ;
+
+        versionText.setText("Version: "+versionName);
+
+
 
         if (!hasPermission(this.getBaseContext(), permissions)) {
             ActivityCompat.requestPermissions(this, permissions, permission_all);
@@ -126,8 +139,9 @@ public class SplashScreen extends AppCompatActivity {
             if (textViews.length > 0) {
                 textViewStatus=textViews[0];
 
-                cantacts= new ArrayList<>();
+                contacts = new ArrayList<>();
 
+                splashProgress.setProgress(10);
 
 
                 if(isFirstTimeLoad) {
@@ -136,8 +150,12 @@ public class SplashScreen extends AppCompatActivity {
 
                     storeContactToDatabaseForFirstTime();
 
+                    splashProgress.setProgress(20);
+
+
                     publishProgress("Analyzing your call history...............");
                     updateContactwithCallLogs();
+
 
                 }
                 else { // it not the first time , only update the call history
@@ -208,11 +226,18 @@ public class SplashScreen extends AppCompatActivity {
 
     private void updateContactwithCallLogs()
     {
-        cantacts =db.getAllContactsModels();
+         int count=0;
 
-        for (ContactModel item : cantacts) {
-            //  counter++;
-            /////
+        //splashProgress.setProgress(90);
+
+
+        contacts =db.getAllContactsModels();
+
+        for (ContactModel item : contacts) {
+            count++;
+
+            splashProgress.setProgress((100*count)/contacts.size());
+
             Cursor cursorLastCall = getContentResolver().query(CallLog.Calls.CONTENT_URI,
                     new String[]{CallLog.Calls.DATE, CallLog.Calls.DURATION,
                             CallLog.Calls.NUMBER, CallLog.Calls._ID, CallLog.Calls.TYPE},
