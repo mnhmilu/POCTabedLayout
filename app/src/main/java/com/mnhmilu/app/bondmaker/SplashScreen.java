@@ -146,12 +146,12 @@ public class SplashScreen extends AppCompatActivity {
 
                 }
 
-                /*List<ContactModel> dblist = db.getAllContactsModels();
+                List<ContactModel> dblist = db.getAllContactsModels();
 
                 for(ContactModel entity:dblist)
                 {
-                    Log.d("Database>>>>>>>>", " number:"+entity.getNumber() + " tags:" + entity.getContact_tag() + "  name:" + entity.getName() +" days"+entity.getDayElapsed());
-                }*/
+                    Log.d("Database>>>>>>>>", " number:"+entity.getNumber() + " tags:" + entity.getContact_tag() + "  name:" + entity.getName() +" days"+entity.getDayElapsed() +" call type:"+entity.getCallType());
+                }
 
             }
             returnValue = true;

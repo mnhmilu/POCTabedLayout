@@ -19,7 +19,7 @@ import com.mnhmilu.app.bondmaker.entity.ContactModel;
 
 public class MakeCallActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    TextView textViewNumber,textViewName;
+    TextView textViewNumber,textViewName,textTagStatus;
     ImageButton btnSubmit,btnAddTag;
     SQLiteDatabaseHandlerForStoreContacts db;
 
@@ -55,27 +55,34 @@ public class MakeCallActivity extends AppCompatActivity implements AdapterView.O
 
 
         Spinner spinner = (Spinner) findViewById(R.id.other_spinner);
-// Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.filtercontact, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
+
         spinner.setAdapter(adapter);
 
         spinner.setOnItemSelectedListener(this);
+
         spinner.setSelection(0);
 
-        btnAddTag = (ImageButton) findViewById(R.id.btnAddTag);
-        btnAddTag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-              //  callNow(getIntent().getStringExtra("callerNumber"));
+        ContactModel entity = db.getContactbyContactNumber(getIntent().getStringExtra("callerNumber"));
+
+        String currentTagName="No Tag";
+
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "Debug is tag:"+entity.getContact_tag()+" callType:"+entity.getCallType(),
+                Toast.LENGTH_SHORT);
+        toast.show();;
 
 
+       // if(entity.getContact_tag()!=null)
+        //{
+            currentTagName=entity.getContact_tag();
+        //}
 
-            }
-        });
+        TextView tagStatus =(TextView) findViewById(R.id.tagStatus);
+       tagStatus.setText("Current Tag: "+currentTagName);
 
     }
     @Override
@@ -88,35 +95,39 @@ public class MakeCallActivity extends AppCompatActivity implements AdapterView.O
         // parent.getItemAtPosition(pos)
 
         if(pos==0) {
-            Toast toast2 = Toast.makeText(getApplicationContext(),
+          /*  Toast toast2 = Toast.makeText(getApplicationContext(),
                     "Do Nothing",
                     Toast.LENGTH_SHORT);
-            toast2.show();
+            toast2.show();*/
         }else {
 
-            String itemselected = parent.getSelectedItem().toString();
+            String selectedTag = parent.getSelectedItem().toString();
 
-            Toast toast = Toast.makeText(getApplicationContext(),
+           /* Toast toast = Toast.makeText(getApplicationContext(),
                     itemselected,
                     Toast.LENGTH_SHORT);
-            toast.show();
+            toast.show();*/
 
             ContactModel entity = db.getContactbyContactNumber(getIntent().getStringExtra("callerNumber"));
 
 
-            Toast toast3 = Toast.makeText(getApplicationContext(),
+            /*Toast toast3 = Toast.makeText(getApplicationContext(),
                    "tag is: "+entity.getContact_tag(),
                     Toast.LENGTH_SHORT);
-            toast3.show();
+            toast3.show();*/
 
             String debug = "";
             if (entity == null) {
                 debug = "No Item Found!";
             } else {
                 debug = "Item Found";
-                entity.setContact_tag(itemselected);
+                entity.setContact_tag(selectedTag);
                 db.updateContactModelByIdentity(entity);
-                debug = "Tag added to the contact";
+
+                TextView tagStatus =(TextView) findViewById(R.id.tagStatus);
+                tagStatus.setText("Current Tag: "+selectedTag);
+
+                debug = selectedTag+" Tag added to the contact";
             }
             Toast toast2 = Toast.makeText(getApplicationContext(),
                     debug,

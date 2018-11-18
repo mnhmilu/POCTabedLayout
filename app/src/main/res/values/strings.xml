@@ -19,7 +19,7 @@
 
     <string name="filter_prompt">Choose a filter</string>
     <string-array name="filtercontact">
-        <item>Select Filter</item>
+        <item>Select...</item>
         <item>All</item>
         <item>Business</item>
         <item>Co-Worker</item>

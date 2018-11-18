@@ -14,7 +14,7 @@ public class ContactModel {
     private int dayElapsed;
 
 
-    public ContactModel(int id, String name, String number, String identity, String callType, String contact_tag, String lastCallDate, int dayElapsed) {
+  /*  public ContactModel(int id, String name, String number, String identity, String callType, String contact_tag, String lastCallDate, int dayElapsed) {
         this.id = id;
         this.name = name;
         this.number = number;
@@ -23,7 +23,7 @@ public class ContactModel {
         this.contact_tag = contact_tag;
         this.lastCallDate = lastCallDate;
         this.dayElapsed = dayElapsed;
-    }
+    }*/
 
     public ContactModel() {
     }

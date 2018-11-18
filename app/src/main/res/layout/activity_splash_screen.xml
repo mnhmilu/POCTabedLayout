@@ -13,7 +13,7 @@
         android:layout_height="173dp"
         android:layout_marginStart="101dp"
         android:layout_marginTop="161dp"
-        android:contentDescription="TODO" app:srcCompat="@mipmap/ic_unity_round" />
+        android:contentDescription="TODO" app:srcCompat="@mipmap/ic_launcher" />
 
     <TextView
         android:id="@+id/textView"

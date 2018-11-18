@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MakeCallActivity">
+    tools:context=".MakeCallActivity"
+    android:id="@+id/relativeLayout">
 
 
     <TextView
@@ -12,47 +13,66 @@
         android:layout_width="357dp"
         android:layout_height="wrap_content"
 
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
         android:layout_marginTop="165dp"
         android:layout_marginEnd="21dp"
         android:text="Name"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/textViewCallNumber"
-        android:layout_width="264dp"
-        android:layout_height="38dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="77dp"
-        android:layout_marginTop="223dp"
+        android:layout_width="231dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="224dp"
         android:text="Number"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/btnCallNow"
-        android:layout_width="177dp"
-        android:layout_height="wrap_content"
+        android:layout_width="104dp"
+        android:layout_height="51dp"
 
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="284dp"
-        android:layout_marginEnd="97dp"
-        android:contentDescription="TODO" app:srcCompat="@android:drawable/stat_sys_phone_call_forward" />
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="224dp"
+        android:contentDescription="TODO"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/stat_sys_phone_call_forward" />
 
     <Spinner
         android:id="@+id/other_spinner"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="212dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="132dp"
+        android:layout_marginTop="104dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/btnAddTag"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/other_spinner"
-        android:layout_alignStart="@+id/textViewCallName"
-        app:srcCompat="@android:drawable/btn_star_big_on" />
+        android:layout_marginEnd="232dp"
+        android:layout_marginTop="116dp"
+        android:text="Add Tag"
+        app:layout_constraintEnd_toEndOf="@+id/other_spinner"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tagStatus"
+        android:layout_width="208dp"
+        android:layout_height="26dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Current Tag:"
+        app:layout_constraintBottom_toTopOf="@+id/other_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
