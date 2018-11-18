@@ -76,13 +76,16 @@ public class MakeCallActivity extends AppCompatActivity implements AdapterView.O
         toast.show();;*/
 
 
-       // if(entity.getContact_tag()!=null)
-        //{
+        if(entity.getContact_tag()!=null && !entity.getContact_tag().equalsIgnoreCase(""))
+        {
             currentTagName=entity.getContact_tag();
-        //}
+        }else {
+            currentTagName="No Tag!";
+        }
+
 
         TextView tagStatus =(TextView) findViewById(R.id.tagStatus);
-       tagStatus.setText("Current Tag: "+currentTagName);
+       tagStatus.setText(currentTagName);
 
     }
     @Override
@@ -125,7 +128,7 @@ public class MakeCallActivity extends AppCompatActivity implements AdapterView.O
                 db.updateContactModelByIdentity(entity);
 
                 TextView tagStatus =(TextView) findViewById(R.id.tagStatus);
-                tagStatus.setText("Current Tag: "+selectedTag);
+                tagStatus.setText(selectedTag);
 
                 debug = selectedTag+" Tag added to the contact";
             }

@@ -64,12 +64,16 @@
 
     <TextView
         android:id="@+id/tagStatus"
-        android:layout_width="208dp"
-        android:layout_height="26dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="244dp"
+        android:layout_height="55dp"
         android:layout_marginStart="8dp"
-        android:text="Current Tag:"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:background="@color/colorPrimary"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         app:layout_constraintBottom_toTopOf="@+id/other_spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
