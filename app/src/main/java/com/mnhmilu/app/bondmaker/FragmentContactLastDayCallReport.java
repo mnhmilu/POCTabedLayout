@@ -410,14 +410,14 @@ public class FragmentContactLastDayCallReport extends Fragment {
                 }else {
 
                     if (contactModelArrayList.get(position).getDayElapsed() >= 0 && contactModelArrayList.get(position).getDayElapsed() <= days) {
-                        textViewDays.setBackgroundColor(Color.GREEN);
-                        textViewDaysFixed.setBackgroundColor(Color.GREEN);
+                        textViewDays.setBackgroundColor(Color.rgb(66, 244, 155));
+                        textViewDaysFixed.setBackgroundColor(Color.rgb(66, 244, 155));
                     } else if (contactModelArrayList.get(position).getDayElapsed() >= (days + 1) && contactModelArrayList.get(position).getDayElapsed() < secondLevel) {
-                        textViewDays.setBackgroundColor(Color.YELLOW);
-                        textViewDaysFixed.setBackgroundColor(Color.YELLOW);
+                        textViewDays.setBackgroundColor(Color.rgb(211, 244, 65));
+                        textViewDaysFixed.setBackgroundColor(Color.rgb(211, 244, 65));
                     } else if (contactModelArrayList.get(position).getDayElapsed() >= secondLevel) {
-                        textViewDays.setBackgroundColor(Color.RED);
-                        textViewDaysFixed.setBackgroundColor(Color.RED);
+                        textViewDays.setBackgroundColor(Color.rgb(255, 114, 114));
+                        textViewDaysFixed.setBackgroundColor(Color.rgb(255, 114, 114));
                     }
                 }
 

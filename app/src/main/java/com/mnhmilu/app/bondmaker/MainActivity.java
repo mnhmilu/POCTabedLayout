@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -102,6 +103,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         MenuItem spinnerItem = menu.findItem(R.id.spinner);
         Spinner spinner = (Spinner)spinnerItem.getActionView().findViewById(R.id.spinner);
+        //spinner.setBackgroundColor(Color.BLUE);
+      //  spinner.setcolor(Color.BLUE);
+
 
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
