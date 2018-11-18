@@ -226,9 +226,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 case 0:
                     view = new FragmentContactLastDayCallReport();
                     break;
-                case 1:
+           /*     case 1:
                     view = new FragmentContact();
-                    break;
+                    break;*/
             }
 
            return view;
@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         @Override
         public int getCount() {
-            return 2;
+            return 1;
         }
     }
 

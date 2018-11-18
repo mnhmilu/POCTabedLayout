@@ -238,7 +238,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
             if (textViews.length > 0) {
                 progressView = textViews[0];
 
-                publishProgress("Getting your coantact data");
+                publishProgress("Analyzing your call history...............");
                 contactModelArrayList.clear();
 
                 if(tagKey.equalsIgnoreCase("")||tagKey.equalsIgnoreCase("All")) {
