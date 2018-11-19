@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
     private TextView progressView;
     private Spinner spinner;
     private  String tagKey="";
+    private ProgressBar progressBarContactLastDay;
 
     SQLiteDatabaseHandlerForStoreContacts db;
 
@@ -119,6 +121,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
         MenuItem spinnerItem = menu.findItem(R.id.spinner);
         Spinner spinner = (Spinner)spinnerItem.getActionView().findViewById(R.id.spinner);
 
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
@@ -183,7 +186,10 @@ public class FragmentContactLastDayCallReport extends Fragment {
         mLayout = rootView.findViewById(R.id.main_content);
         progressView = (TextView) rootView.findViewById(R.id.processStatus);
 
-      //  ArrayList<ContactModel> dbList=db.getAllContactsModels();
+        progressBarContactLastDay=(ProgressBar)rootView.findViewById(R.id.progressBarContactLastDay);
+
+
+        //  ArrayList<ContactModel> dbList=db.getAllContactsModels();
         contactModelArrayList = new ArrayList<>();
         customAdapterLastCall = new CustomAdapterLastCall(getContext(),contactModelArrayList ) {
             @Override
@@ -226,6 +232,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
 
             count = 0;
             progressView.setVisibility(View.VISIBLE);
+            progressBarContactLastDay.setVisibility(View.VISIBLE);
             listView.setVisibility(View.INVISIBLE);
         }
 
@@ -234,6 +241,8 @@ public class FragmentContactLastDayCallReport extends Fragment {
 
             Boolean returnValue = false;
             contactModelArrayList = new ArrayList<>();
+           // progressBarContactLastDay.setVisibility(View.VISIBLE);
+            progressBarContactLastDay.setProgress(10);
 
             if (textViews.length > 0) {
                 progressView = textViews[0];
@@ -317,7 +326,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
                 });
 
                 progressView.setVisibility(View.GONE);
-
+                progressBarContactLastDay.setVisibility(View.GONE);
 
             }
 
@@ -326,9 +335,17 @@ public class FragmentContactLastDayCallReport extends Fragment {
 
     private void updateContactwithCallLogs()
     {
+        int count=0;
         ArrayList<ContactModel> cantacts =db.getAllContactsModels();
 
         for (ContactModel item : cantacts) {
+
+            count++;
+
+            progressBarContactLastDay.setProgress((100*count)/cantacts.size());
+
+
+
             //  counter++;
             /////
             Cursor cursorLastCall = getActivity().getContentResolver().query(CallLog.Calls.CONTENT_URI,

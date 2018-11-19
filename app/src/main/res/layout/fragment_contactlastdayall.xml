@@ -12,7 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
+        <ProgressBar
+            android:id="@+id/progressBarContactLastDay"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+          />
         <TextView
             android:id="@+id/processStatus"
             android:layout_width="match_parent"
@@ -20,6 +25,9 @@
             android:layout_marginLeft="10dp"
             android:text="Please wait..."
             android:textSize="20sp" />
+
+
+
         <ListView
             android:id="@+id/listView"
             android:visibility="invisible"
