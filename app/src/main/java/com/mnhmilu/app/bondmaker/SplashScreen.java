@@ -198,6 +198,7 @@ public class SplashScreen extends AppCompatActivity {
             if (isDone) {
                 textViewStatus.setText("Processing Done!");
                 loadMainActivity();
+                db.close();
 
             }
         }
@@ -237,6 +238,9 @@ public class SplashScreen extends AppCompatActivity {
             count++;
 
             splashProgress.setProgress((100*count)/contacts.size());
+
+            Log.d("DebugAbir>>>"," name:"+item.getName() +" number "+item.getNumber());
+
 
             Cursor cursorLastCall = getContentResolver().query(CallLog.Calls.CONTENT_URI,
                     new String[]{CallLog.Calls.DATE, CallLog.Calls.DURATION,

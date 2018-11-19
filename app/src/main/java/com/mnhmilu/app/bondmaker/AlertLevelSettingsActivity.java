@@ -47,7 +47,7 @@ public class AlertLevelSettingsActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        db = new SQLiteDatabaseHandlerForStoreContacts(this);
+
 
         editText1 =(EditText) findViewById(R.id.tbxAlert1);
 
@@ -135,6 +135,8 @@ public class AlertLevelSettingsActivity extends AppCompatActivity {
 
         int count=0;
 
+        db = new SQLiteDatabaseHandlerForStoreContacts(this);
+
         while (phones.moveToNext()) {
 
             count++;
@@ -161,13 +163,17 @@ public class AlertLevelSettingsActivity extends AppCompatActivity {
          }
          else {
               entity.setName(name);
-              entity.setNumber(phoneNumber);
+              entity.setNumber(phoneNumber.replace(" ", "").replace("-", ""));
               db.updateContactModelByIdentity(entity);
               Log.d("DebugSetings>>","Updating contact");
           }
+
+
+
+
         }
         phones.close();
-
+        db.close();
 
     }
 
