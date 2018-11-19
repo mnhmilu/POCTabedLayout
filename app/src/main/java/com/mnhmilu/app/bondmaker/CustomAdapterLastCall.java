@@ -88,18 +88,29 @@ public class CustomAdapterLastCall extends BaseAdapter {
 
             if (contactModelArrayList.size() > 0) {
 
-                holder.tvname.setText(contactModelArrayList.get(position).getName());
+                String addText="";
+
+                if(contactModelArrayList.get(position).getContact_tag()!=null && !contactModelArrayList.get(position).getContact_tag().equalsIgnoreCase(""))
+                {
+                    addText=contactModelArrayList.get(position).getName()+" ["+contactModelArrayList.get(position).getContact_tag()+"]";
+                }
+                else {
+                    addText=contactModelArrayList.get(position).getName();
+                }
+
+
+                holder.tvname.setText(addText);
                 holder.tvnumber.setText(contactModelArrayList.get(position).getNumber());
 
                 if (contactModelArrayList.get(position).getLastCallDate() != null) {
                   //  String date = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(contactModelArrayList.get(position).getLastCallDate());
                     String date = contactModelArrayList.get(position).getLastCallDate();
-                    holder.tvlastcalldate.setText(contactModelArrayList.get(position).getCallType()+": "+date+" Tag:"+contactModelArrayList.get(position).getContact_tag());
+                    holder.tvlastcalldate.setText(contactModelArrayList.get(position).getCallType()+": "+date);
                     holder.tvelapsedDay.setText(String.valueOf(contactModelArrayList.get(position).getDayElapsed()));
                 }else
                 {
                     holder.tvelapsedDay.setText("-");
-                    holder.tvlastcalldate.setText("Never Called");
+                    holder.tvlastcalldate.setText("Never Called"+" Tag >> "+contactModelArrayList.get(position).getContact_tag());
                 }
 
             }

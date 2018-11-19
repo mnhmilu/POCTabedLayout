@@ -272,7 +272,10 @@ public class SplashScreen extends AppCompatActivity {
                 DateFormat dt = android.text.format.DateFormat.getDateFormat(getApplicationContext());
                 String formattedDate = dt.format(callDayTime);
 
-                item.setLastCallDate(formattedDate);
+                String dateF = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(callDayTime);
+                //  String date = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(contactModelArrayList.get(position).getLastCallDate());
+
+                item.setLastCallDate(dateF);
 
 
                 long diff = new Date().getTime() - callDayTime.getTime();
@@ -291,6 +294,7 @@ public class SplashScreen extends AppCompatActivity {
 
             } else {
                 item.setContact_tag("Never Called");
+                item.setDayElapsed(-1);
             }
 
             db.updateContactModelByIdentity(item); //only update
