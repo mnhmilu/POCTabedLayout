@@ -134,6 +134,40 @@ public class SQLiteDatabaseHandlerForStoreContacts extends SQLiteOpenHelper {
         return model;
     }
 
+    ContactModel getContactbyContactIdentity(String identity) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_BONDMAKER_DATA, new String[]{
+                        KEY_ID,
+                        CONTACT_NAME,
+                        CONTACT_NUMBER,
+                        CONTACT_IDENTITY,
+                        CONTACT_TAG,
+                        CALL_TYPE,
+                        LAST_CALL_DATETIME,
+                        DAY_ELAPSED}, CONTACT_IDENTITY + "=?",
+                new String[]{identity}, null, null, null, null);
+        ContactModel model = null;
+        if (cursor != null && cursor.moveToFirst()) {
+
+            model = new ContactModel();
+            model.setId(Integer.parseInt(cursor.getString(0)));
+            model.setName(cursor.getString(1));//name
+            model.setNumber(cursor.getString(2));//number
+            model.setIdentity(cursor.getString(3));//identity
+            model.setContact_tag(cursor.getString(4));//contact_tag
+            model.setCallType(cursor.getString(5));//calltype
+            model.setLastCallDate(cursor.getString(6));//lastCallDate
+            model.setDayElapsed(cursor.getInt(7));// dayElapsed
+
+        }
+
+        Log.d("Debug>>>>>>", "Call Type: " + model.getCallType() + " tag" + model.getContact_tag());
+
+        return model;
+    }
+
+
     public ArrayList<ContactModel> getAllContactsModels() {
         ArrayList<ContactModel> models = new ArrayList<ContactModel>();
         // Select All Query

@@ -90,7 +90,7 @@ public class CustomAdapterLastCall extends BaseAdapter {
 
                 String addText="";
 
-                if(contactModelArrayList.get(position).getContact_tag()!=null && !contactModelArrayList.get(position).getContact_tag().equalsIgnoreCase(""))
+                if(contactModelArrayList.get(position).getContact_tag()!=null && !contactModelArrayList.get(position).getContact_tag().equalsIgnoreCase("") && !contactModelArrayList.get(position).getContact_tag().equalsIgnoreCase("Never Called"))
                 {
                     addText=contactModelArrayList.get(position).getName()+" ["+contactModelArrayList.get(position).getContact_tag()+"]";
                 }
@@ -110,7 +110,7 @@ public class CustomAdapterLastCall extends BaseAdapter {
                 }else
                 {
                     holder.tvelapsedDay.setText("-");
-                    holder.tvlastcalldate.setText("Never Called"+" Tag >> "+contactModelArrayList.get(position).getContact_tag());
+                    holder.tvlastcalldate.setText("Never Called");
                 }
 
             }
