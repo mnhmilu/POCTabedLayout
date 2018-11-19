@@ -95,7 +95,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
 
                       // Inserting Row
             db.insert(TABLE_TAGS, null, values);
-            db.close(); // Closing database connection
+
         }
 
 
@@ -109,7 +109,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
 
           // Inserting Row
           db.insert(TABLE_TAGS_CONTACT_SETTINGS, null, values);
-          db.close(); // Closing database connection
+
     }
 
 
@@ -200,14 +200,14 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
             SQLiteDatabase db = this.getWritableDatabase();
             db.delete(TABLE_TAGS, KEY_ID + " = ?",
                     new String[] { String.valueOf(tagModel.getTag_id()) });
-            db.close();
+
         }
 
     public void deleteTagContactSettingModel(TagContactSettingModel tagContactSettingModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_TAGS_CONTACT_SETTINGS, CONTACT_IDENTITY + " = ?",
                 new String[] { String.valueOf(tagContactSettingModel.getIdentity()) });
-        db.close();
+
     }
 
 
@@ -215,7 +215,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         public void deleteAllTagModels() {
             SQLiteDatabase db = this.getWritableDatabase();
             db.delete(TABLE_TAGS,null,null);
-            db.close();
+
         }
 
         // Getting countries Count

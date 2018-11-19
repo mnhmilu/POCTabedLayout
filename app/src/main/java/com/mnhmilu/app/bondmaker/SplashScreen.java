@@ -198,7 +198,7 @@ public class SplashScreen extends AppCompatActivity {
             if (isDone) {
                 textViewStatus.setText("Processing Done!");
                 loadMainActivity();
-                db.close();
+
 
             }
         }

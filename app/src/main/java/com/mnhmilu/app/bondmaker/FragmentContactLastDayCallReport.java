@@ -284,7 +284,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
             if (isDone) {
 
                 progressView.setText("Processing Done!");
-                db.close();
+
 
                 // Toast.makeText(getContext(), " !", Toast.LENGTH_LONG).show();
 

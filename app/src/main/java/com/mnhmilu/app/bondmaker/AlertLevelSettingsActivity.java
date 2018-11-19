@@ -173,7 +173,7 @@ public class AlertLevelSettingsActivity extends AppCompatActivity {
 
         }
         phones.close();
-        db.close();
+
 
     }
 

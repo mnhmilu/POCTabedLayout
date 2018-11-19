@@ -96,7 +96,7 @@ public class SQLiteDatabaseHandlerForStoreContacts extends SQLiteOpenHelper {
         }
         // Inserting Row
         db.insert(TABLE_BONDMAKER_DATA, null, values);
-        db.close(); // Closing database connection
+
     }
 
 
@@ -162,7 +162,7 @@ public class SQLiteDatabaseHandlerForStoreContacts extends SQLiteOpenHelper {
 
         }
 
-        Log.d("Debug>>>>>>", "Call Type: " + model.getCallType() + " tag" + model.getContact_tag());
+     //   Log.d("Debug>>>>>>", "Call Type: " + model.getCallType() + " tag" + model.getContact_tag());
 
         return model;
     }
@@ -249,7 +249,7 @@ public class SQLiteDatabaseHandlerForStoreContacts extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_BONDMAKER_DATA, KEY_ID + " = ?",
                 new String[]{String.valueOf(model.getId())});
-        db.close();
+
     }
 
 
@@ -257,7 +257,7 @@ public class SQLiteDatabaseHandlerForStoreContacts extends SQLiteOpenHelper {
     public void deleteAllContactModels() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_BONDMAKER_DATA, null, null);
-        db.close();
+
     }
 
 
