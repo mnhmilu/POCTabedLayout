@@ -125,7 +125,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
         // Do something that differs the Activity's menu here
 
         MenuItem spinnerItem = menu.findItem(R.id.spinner);
-        Spinner spinner = (Spinner)spinnerItem.getActionView().findViewById(R.id.spinner);
+        spinner = (Spinner)spinnerItem.getActionView().findViewById(R.id.spinner);
 
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -174,6 +174,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
        if(id == R.id.action_refresh)
         {
             tagKey="refresh";
+            spinner.setSelection(0);
             new GetContactLastCallAsycTask().execute(progressView);
         }
 
@@ -265,6 +266,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
                 {
                     updateContactwithCallLogs();
                     contactModelArrayList = db.getAllContactsModels();
+
                 }
                 else
                 {
