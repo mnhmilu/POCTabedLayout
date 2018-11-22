@@ -1,65 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="#ffffff"
-    android:orientation="vertical">
 
-    <RelativeLayout
+    android:orientation="horizontal">
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="76dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
 
         <TextView
             android:id="@+id/textViewDays"
-            android:layout_width="79dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@drawable/rounded_textview"
             android:paddingTop="5dp"
             android:text="TextView"
             android:textAlignment="center"
             android:textColor="@android:color/white"
-            android:textSize="25dp"
+            android:textSize="20dp"
             tools:text="-" />
 
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="305dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/textViewDays"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:text="Name"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-        <TextView
-            android:id="@+id/number"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/name"
-            android:layout_centerVertical="true"
-            android:paddingLeft="10dp"
-            android:text="number"
-            android:textColor="#000000"
-            android:textSize="18dp" />
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/lastCallDate"
-            android:layout_width="280dp"
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="251dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/textViewDays"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="Name"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/number"
+                android:layout_width="145dp"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/name"
+                android:layout_centerVertical="true"
+                android:paddingLeft="10dp"
+                android:text="number"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/lastCallDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignStart="@+id/name"
+                android:layout_marginStart="1dp"
+                android:paddingLeft="10dp"
+                android:text="-"
+                android:textColor="#000000"
+                android:textSize="12dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/name"
-            android:layout_marginStart="1dp"
-            android:paddingLeft="10dp"
-            android:text="-"
-            android:textColor="#000000"
-            android:textSize="15sp" />
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
 
-    </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/imageViewContactDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_menu_more" />
+
+            <ImageView
+                android:id="@+id/imageViewFlag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@android:drawable/btn_star_big_off" />
+        </LinearLayout>
+
+
+    </LinearLayout>
 
 </LinearLayout>
+
+

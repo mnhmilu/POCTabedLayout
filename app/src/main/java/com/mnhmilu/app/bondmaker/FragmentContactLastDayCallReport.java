@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.CallLog;
@@ -20,6 +21,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -56,6 +59,9 @@ public class FragmentContactLastDayCallReport extends Fragment {
     private Spinner spinner;
     private  String tagKey="";
     private ProgressBar progressBarContactLastDay;
+    ImageButton btnMakeaCall;
+    ImageView imageViewCallDetails;
+    TextView number;
 
     SQLiteDatabaseHandlerForStoreContacts db;
 
@@ -213,6 +219,8 @@ public class FragmentContactLastDayCallReport extends Fragment {
     }
 
 
+
+
     @Override
     public void onResume() {
         Log.d("Last On Resume>>", "");
@@ -312,10 +320,13 @@ public class FragmentContactLastDayCallReport extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
+
+                     /*   Toast toast2 = Toast.makeText(getContext(),
+                                "Item Cllicked!!!",
+                                Toast.LENGTH_SHORT);
+                        toast2.show();
+*/
                         ContactModel contact = (ContactModel) adapterView.getItemAtPosition(position);
-
-
-
                         Intent in = new Intent(getActivity(),MakeCallActivity.class);
                         in.putExtra("callerNumber",contact.getNumber());
                         in.putExtra("callerName",contact.getName());
@@ -381,9 +392,12 @@ public class FragmentContactLastDayCallReport extends Fragment {
                 Date callDayTime = new Date(Long.valueOf(callDate));
 
                 DateFormat dt = android.text.format.DateFormat.getDateFormat(getContext());
-                String formattedDate = dt.format(callDayTime);
+              //  String formattedDate = dt.format(callDayTime);
 
-                item.setLastCallDate(formattedDate);
+                String dateF = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(callDayTime);
+
+
+                item.setLastCallDate(dateF);
 
 
                 long diff = new Date().getTime() - callDayTime.getTime();
@@ -427,28 +441,45 @@ public class FragmentContactLastDayCallReport extends Fragment {
 
                 int days = mysettings.getInt(getString(R.string.alarm_first_level),10);
                 int secondLevel=days+days+1;
-                TextView textViewDays=(TextView) view.findViewById(R.id.textViewDays);
+                //TextView textViewDays=(TextView) view.findViewById(R.id.textViewDays);
+
+                ImageView imageView =(ImageView) view.findViewById(R.id.imageViewFlag);
+              //  TextView number = (TextView) view.findViewById(R.id.number);
+
+
+          /*       if (contactModelArrayList.get(position).getDayElapsed()> days) {
+                     imageView.setColorFilter(getContext().getResources().getColor(R.color.colorAccent));
+
+                 }*/
+
+
                // TextView textViewDaysFixed=(TextView) view.findViewById(R.id.textViewFixedDays);
-/*
+
                if(contactModelArrayList.get(position).getContact_tag().equalsIgnoreCase("Never Called"))
                {
-                    textViewDays.setBackgroundColor(Color.GRAY);
-                   //textViewDaysFixed.setBackgroundColor(Color.GRAY);
+                   int colorCode = Color.parseColor("#ffe6e6") ;
+                   imageView.setColorFilter(colorCode);
+
                 }else {
 
                     if (contactModelArrayList.get(position).getDayElapsed() >= 0 && contactModelArrayList.get(position).getDayElapsed() <= days) {
-                        textViewDays.setBackgroundColor(Color.rgb(66, 244, 155));
-                        //textViewDaysFixed.setBackgroundColor(Color.rgb(66, 244, 155));
+                      //  imageView.setBackgroundColor(Color.rgb(66, 244, 155));
+                        int colorCode = Color.parseColor("#00ff00") ;
+                        imageView.setColorFilter(colorCode);
+
+
+
                     } else if (contactModelArrayList.get(position).getDayElapsed() >= (days + 1) && contactModelArrayList.get(position).getDayElapsed() < secondLevel) {
-                        textViewDays.setBackgroundColor(Color.rgb(211, 244, 65));
-                        //textViewDaysFixed.setBackgroundColor(Color.rgb(211, 244, 65));
+                        int colorCode = Color.parseColor("#ffff00") ;
+                        imageView.setColorFilter(colorCode);
+
                     } else if (contactModelArrayList.get(position).getDayElapsed() >= secondLevel) {
-                        textViewDays.setBackgroundColor(Color.rgb(255, 114, 114));
-                        //textViewDaysFixed.setBackgroundColor(Color.rgb(255, 114, 114));
+                        int colorCode = Color.parseColor("#ff4000") ;
+                        imageView.setColorFilter(colorCode);
                     }
                 }
 
-                */
+
 
             }
         }
