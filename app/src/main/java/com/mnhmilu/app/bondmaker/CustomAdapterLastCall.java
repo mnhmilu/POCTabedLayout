@@ -106,7 +106,7 @@ public class CustomAdapterLastCall extends BaseAdapter {
                   //  String date = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(contactModelArrayList.get(position).getLastCallDate());
                     String date = contactModelArrayList.get(position).getLastCallDate();
                     holder.tvlastcalldate.setText(contactModelArrayList.get(position).getCallType()+": "+date);
-                    holder.tvelapsedDay.setText(String.valueOf(contactModelArrayList.get(position).getDayElapsed()));
+                    holder.tvelapsedDay.setText(String.valueOf(contactModelArrayList.get(position).getDayElapsed())+"\n"+"day's");
                 }else
                 {
                     holder.tvelapsedDay.setText("-");

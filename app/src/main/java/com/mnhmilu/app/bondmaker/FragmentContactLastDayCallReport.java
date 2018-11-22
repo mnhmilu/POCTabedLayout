@@ -428,25 +428,27 @@ public class FragmentContactLastDayCallReport extends Fragment {
                 int days = mysettings.getInt(getString(R.string.alarm_first_level),10);
                 int secondLevel=days+days+1;
                 TextView textViewDays=(TextView) view.findViewById(R.id.textViewDays);
-                TextView textViewDaysFixed=(TextView) view.findViewById(R.id.textViewFixedDays);
-
+               // TextView textViewDaysFixed=(TextView) view.findViewById(R.id.textViewFixedDays);
+/*
                if(contactModelArrayList.get(position).getContact_tag().equalsIgnoreCase("Never Called"))
                {
                     textViewDays.setBackgroundColor(Color.GRAY);
-                   textViewDaysFixed.setBackgroundColor(Color.GRAY);
+                   //textViewDaysFixed.setBackgroundColor(Color.GRAY);
                 }else {
 
                     if (contactModelArrayList.get(position).getDayElapsed() >= 0 && contactModelArrayList.get(position).getDayElapsed() <= days) {
                         textViewDays.setBackgroundColor(Color.rgb(66, 244, 155));
-                        textViewDaysFixed.setBackgroundColor(Color.rgb(66, 244, 155));
+                        //textViewDaysFixed.setBackgroundColor(Color.rgb(66, 244, 155));
                     } else if (contactModelArrayList.get(position).getDayElapsed() >= (days + 1) && contactModelArrayList.get(position).getDayElapsed() < secondLevel) {
                         textViewDays.setBackgroundColor(Color.rgb(211, 244, 65));
-                        textViewDaysFixed.setBackgroundColor(Color.rgb(211, 244, 65));
+                        //textViewDaysFixed.setBackgroundColor(Color.rgb(211, 244, 65));
                     } else if (contactModelArrayList.get(position).getDayElapsed() >= secondLevel) {
                         textViewDays.setBackgroundColor(Color.rgb(255, 114, 114));
-                        textViewDaysFixed.setBackgroundColor(Color.rgb(255, 114, 114));
+                        //textViewDaysFixed.setBackgroundColor(Color.rgb(255, 114, 114));
                     }
                 }
+
+                */
 
             }
         }
