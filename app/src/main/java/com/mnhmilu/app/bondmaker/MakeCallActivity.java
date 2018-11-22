@@ -20,7 +20,7 @@ import com.mnhmilu.app.bondmaker.entity.ContactModel;
 public class MakeCallActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     TextView textViewNumber,textViewName,textTagStatus;
-    ImageButton btnSubmit,btnAddTag;
+    ImageButton btnSubmit,btnAddTag,btnDelete;
     SQLiteDatabaseHandlerForStoreContacts db;
 
 
@@ -83,11 +83,37 @@ public class MakeCallActivity extends AppCompatActivity implements AdapterView.O
             currentTagName="No Tag!";
         }
 
-
         TextView tagStatus =(TextView) findViewById(R.id.tagStatus);
        tagStatus.setText(currentTagName);
 
+       ImageButton imageButton=(ImageButton) findViewById(R.id.imageButtonDelete);
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteContact(getIntent().getStringExtra("callerNumber"));
+            }
+        });
+
+
+
     }
+
+    private void deleteContact(String callerNumber) {
+
+        ContactModel entity = db.getContactbyContactNumber(callerNumber);
+        db.deleteContactModelById(entity);
+        Toast toast2 = Toast.makeText(getApplicationContext(),
+                "Item Removed from the App! Refresh the list.",
+                Toast.LENGTH_SHORT);
+        toast2.show();
+        super.onBackPressed();
+        this.finish();
+
+
+
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {

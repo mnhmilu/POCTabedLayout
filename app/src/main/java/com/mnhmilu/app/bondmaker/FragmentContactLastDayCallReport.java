@@ -63,6 +63,7 @@ public class FragmentContactLastDayCallReport extends Fragment {
     ImageView imageViewCallDetails;
     TextView number;
 
+
     SQLiteDatabaseHandlerForStoreContacts db;
 
    // private ProgressBar progressBar;
@@ -413,11 +414,9 @@ public class FragmentContactLastDayCallReport extends Fragment {
 
                 item.setDayElapsed(i);
 
-                Log.d("Last Call date>>", item.getNumber() + "  " + dt.format(callDayTime) + "  Month: " + callDayTime.getMonth() + " days" + item.getDayElapsed());
+               // Log.d("Last Call date>>", item.getNumber() + "  " + dt.format(callDayTime) + "  Month: " + callDayTime.getMonth() + " days" + item.getDayElapsed());
 
 
-            } else {
-                item.setContact_tag("Never Called");
             }
 
             db.updateContactModelByIdentity(item); //only update
